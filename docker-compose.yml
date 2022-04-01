@@ -1,0 +1,77 @@
+# zenn-backend/docker-compose.yml
+version: "3.8"
+
+services:
+  db:
+    container_name: db
+    image: mysql:8.0.28
+    environment:
+      TZ: Asia/Tokyo
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    command: --default-authentication-plugin=mysql_native_password # 認証方式を8系以前のものにする。
+    env_file:
+      - ./db.env
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - 3307:3306
+    networks:
+      backend_net:
+        ipv4_address: '172.20.0.2'
+  backend:
+    container_name: backend
+    build: ./backend/
+    image: backend
+    command: bundle exec rails server -b 0.0.0.0
+    tty: true
+    stdin_open: true
+    env_file:
+      - ./db.env
+    volumes:
+      - ./backend:/backend:cached
+      - bundle_data:/usr/local/bundle:cached
+      - log-data:/var/log
+      - /backend/vendor
+      - /backend/tmp
+      - /backend/log
+      - /backend/.git
+    environment:
+      TZ: Asia/Tokyo
+    depends_on:
+      - db
+    ports:
+      - 3030:3000 # ポートフォワード #「ポートフォワーディング」とは、インターネットから特定のポート番号宛てに届いたパケットを、あらかじめ設定しておいたLAN側の機器に転送する機能です。
+      # 左側（3030）がホストのポートで、右側（3000）がコンテナのポート
+    networks:
+      backend_net:
+        ipv4_address: '172.20.0.3' # dockerのコンテナに固定IPを振る
+  frontend:
+    container_name: front
+    build: ./frontend/
+    image: frontend
+    volumes:
+      - ./frontend:/frontend
+    ports:
+      - 3000:3000
+    command: "npm run serve"
+    networks:
+      backend_net:
+        ipv4_address: '172.20.0.4'
+
+networks:
+  backend_net:
+    driver: bridge #bridge はホストの任意のポートをコンテナのポートにマップすることが出来る
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/24 # サブネットは、ネットワーク内のネットワーク
+
+volumes:
+  mysql_data:
+  bundle_data:
+  log-data:
+
+# 10101100 00010100 00000000   0000 0000
+# 172.20.0 がネットワーク部
+
+# docker-compose run backend rails new . --api --force --database=mysql --skip-bundle
