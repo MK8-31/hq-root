@@ -41,25 +41,61 @@
       </v-list-item-group>
     </v-list>
     <v-col cols="12" class="d-flex">
-      <v-list-item-content>
-        <v-text-field v-model="todo" label="AddTodo" required></v-text-field>
-      </v-list-item-content>
+      <validation-observer ref="observer" v-slot="{ invalid }">
+        <v-form @submit.prevent="submit">
+          <v-list-item-content>
+            <ValidationProvider
+              ref="observer"
+              v-slot="{ errors }"
+              rules="required|min:3|max:7"
+              name="addTodo"
+            >
+              <v-text-field
+                v-model="todo"
+                label="AddTodo"
+                required
+                :error-messages="errors"
+              ></v-text-field>
+            </ValidationProvider>
+          </v-list-item-content>
 
-      <v-list-item-action>
-        <v-btn @click.stop="addTask(todo)" icon>
-          <v-icon>
-            mdi-plus-circle
-          </v-icon>
-        </v-btn>
-      </v-list-item-action>
+          <v-list-item-action>
+            <v-btn class="btn-plus" icon type="submit" :disabled="invalid">
+              <v-icon>
+                mdi-plus-circle
+              </v-icon>
+            </v-btn>
+          </v-list-item-action>
+        </v-form>
+      </validation-observer>
     </v-col>
   </v-card>
 </template>
 
 <script>
   import axios from "axios";
+  // eslint-disable-next-line
+  import {
+    extend,
+    ValidationObserver,
+    ValidationProvider,
+    localize,
+  } from "vee-validate";
+  import { max, min, required } from "vee-validate/dist/rules";
+  import ja from "vee-validate/dist/locale/ja";
+
+  // eslint-disable-next-line
+  localize("ja", ja);
+
+  extend("max", max);
+  extend("min", min);
+  extend("required", required);
 
   export default {
+    components: {
+      ValidationProvider,
+      ValidationObserver,
+    },
     data: () => ({
       selected: [2],
       items: [
@@ -75,6 +111,7 @@
         // },
       ],
       todo: "",
+      invalid: false,
     }),
     created() {
       this.getTasks();
@@ -96,6 +133,10 @@
         this.items = response.data.tasks.map((task) => {
           return { id: task.id, task: task.task, done: task.done };
         });
+      },
+      submit() {
+        if (!this.$refs.observer.validate()) return;
+        this.addTask(this.todo);
       },
     },
   };

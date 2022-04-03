@@ -16,7 +16,7 @@ services:
     ports:
       - 3307:3306
     networks:
-      backend_net:
+      app_net:
         ipv4_address: '172.20.0.2'
   backend:
     container_name: backend
@@ -43,7 +43,7 @@ services:
       - 3030:3000 # ポートフォワード #「ポートフォワーディング」とは、インターネットから特定のポート番号宛てに届いたパケットを、あらかじめ設定しておいたLAN側の機器に転送する機能です。
       # 左側（3030）がホストのポートで、右側（3000）がコンテナのポート
     networks:
-      backend_net:
+      app_net:
         ipv4_address: '172.20.0.3' # dockerのコンテナに固定IPを振る
   frontend:
     container_name: front
@@ -55,11 +55,31 @@ services:
       - 3000:3000
     command: "npm run serve"
     networks:
-      backend_net:
+      app_net:
         ipv4_address: '172.20.0.4'
+  # e2e:
+  #   container_name: e2e
+  #   image: "cypress/included:4.1.0"
+  #   # container_name: cypress
+  #   # "cypress/included" images have entrypoint set to globally installed cypress
+  #   # so the command can simply add any arguments
+  #   # command: "run --browser chrome"
+  #   working_dir: /e2e
+  #   volumes:
+  #     - ./e2e:/e2e
+  #   extra_hosts:
+  #     - "host.docker.internal:host-gateway"
+  #     - "localhost:host-gateway"
+  #   # environment:
+  #   #   - CYPRESS_baseUrl=http://172.20.0.4:3000
+  #   networks:
+  #     app_net:
+  #       ipv4_address: '172.20.0.5'
+  #   depends_on:
+  #     - frontend
 
 networks:
-  backend_net:
+  app_net:
     driver: bridge #bridge はホストの任意のポートをコンテナのポートにマップすることが出来る
     ipam:
       driver: default

@@ -4,7 +4,5 @@ module.exports = defineConfig({
     proxy: "http://localhost:3030",
     port: 3000,
   },
-  transpileDependencies: [
-    'vuetify'
-  ],
+  transpileDependencies: ["vuetify"],
 });
