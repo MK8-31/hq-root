@@ -1,0 +1,130 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine.
+# See: https://circleci.com/docs/2.0/configuration-reference
+version: 2.1
+
+# Define a job to be invoked later in a workflow.
+# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
+jobs:
+  test_backend:
+    docker:
+      - image: cimg/ruby:3.1.1
+        environment:
+          RAILS_ENV: test
+          DB_HOST: 127.0.0.1
+          DB_USER: dbuser
+          DB_PASSWORD: dbuser
+      - image: cimg/mysql:8.0.28
+        command: |
+          mysqld --default-authentication-plugin=mysql_native_password
+        environment:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: sample_test
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_ROOT_PASSWORD: ""
+          MYSQL_USER: dbuser
+          MYSQL_PASSWORD: dbuser
+          MYSQL_ROOT_HOST: "%"
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # restore gem from cache
+      - restore_cache:
+          keys:
+            - gem-cache-v1-{{ checksum "~/repo/backend/Gemfile.lock" }}
+            - gem-cache-v1-
+          working_directory: ~/repo/backend
+
+      # gem install
+      # --job=[<size>]: 並列ワーカーをsizeの数から開始することで、Gemを並列にインストール
+      # --retry [<tries>]: ネットワークの接続またはGitリクエストの失敗時に、tries回リトライする
+      - run:
+          command: |
+            gem install bundler
+            bundle config set path 'vendor/bundle'
+            bundle install --jobs=4 --retry=3
+          working_directory: ~/repo/backend
+
+      - save_cache:
+          key: gem-cache-v1-{{ checksum "~/repo/backend/Gemfile.lock" }}
+          paths:
+            - ~/repo/backend/vendor/bundle
+          working_directory: ~/repo/backend
+
+      # DBのイメージが立ち上がるまで待機する
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 3m
+
+      # Database setup
+      - run:
+          command: bundle exec rails db:create
+          working_directory: ~/repo/backend
+      - run:
+          command: bundle exec rails db:migrate
+          working_directory: ~/repo/backend
+
+      - run:
+          name: create directory to store test results
+          command: mkdir /tmp/test-results
+          working_directory: ~/repo/backend
+
+      # run tests
+      - run:
+          name: RSpec
+          command: |
+            bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings) \
+              || (printf "====== RETRYING...\n\n\n"; bundle exec rspec --only-failures)
+          working_directory: ~/repo/backend
+
+      # collect reports
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
+      - store_artifacts:
+          path: /home/circleci/repo/tmp/screenshots
+
+  test_frontend:
+    docker:
+      - image: cimg/node:16.14.2
+        environment:
+          NODE_ENV: test
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "~/repo/frontend/package.json" }}
+          working_directory: ~/repo/frontend
+      - run:
+          name: install-packages
+          command: npm install
+          working_directory: ~/repo/frontend
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "~/repo/frontend/package.json" }}
+          working_directory: ~/repo/frontend
+      - run:
+          name: test(unit)
+          command: npm run test:unit
+          working_directory: ~/repo/frontend
+# Invoke jobs via workflows
+# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test_backend:
+          filters:
+            branches:
+              ignore: main
+      - test_frontend:
+          filters:
+            branches:
+              ignore: main
