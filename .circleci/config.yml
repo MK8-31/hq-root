@@ -119,6 +119,7 @@ jobs:
           command: npm run test:unit
           working_directory: ~/repo/frontend
       # test e2e
+      - setup_remote_docker
       - run:
           name: build cypress
           command: docker run -it \
