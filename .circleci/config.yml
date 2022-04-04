@@ -93,9 +93,9 @@ jobs:
         environment:
           NODE_ENV: test
 
-      - image: "cypress/included:4.1.0"
-        environment:
-          - CYPRESS_baseUrl=http://localhost:3000
+      # - image: "cypress/included:4.1.0"
+      #   environment:
+      #     - CYPRESS_baseUrl=http://localhost:3000
 
     working_directory: ~/repo
 
@@ -119,6 +119,14 @@ jobs:
           command: npm run test:unit
           working_directory: ~/repo/frontend
       # test e2e
+      - run:
+          name: build cypress
+          command: docker run -it \
+            -v $PWD:/e2e \
+            -w /e2e \
+            -e CYPRESS_baseUrl=http://localhost:3000 \
+            cypress/included:4.1.0
+          working_directory: ~/repo/e2e
       - run:
           name: Running E2E tests
           command: cypress run
