@@ -114,6 +114,23 @@ jobs:
           name: test(unit)
           command: npm run test:unit
           working_directory: ~/repo/frontend
+
+  e2e:
+    docker:
+      - image: "cypress/included:4.1.0"
+        environment:
+          - CYPRESS_baseUrl=http://localhost:3000
+
+    steps:
+      - checkout
+      - run:
+          name: Running E2E tests
+          command: cypress run
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
+
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
