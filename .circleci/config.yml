@@ -119,15 +119,6 @@ jobs:
           name: test(unit)
           command: npm run test:unit
           working_directory: ~/repo/frontend
-
-    docker:
-      - image: "cypress/included:4.1.0"
-        environment:
-          - CYPRESS_baseUrl=http://localhost:3000
-    working_directory: ~/repo/e2e
-
-    steps:
-      - checkout
       # test e2e
       - run:
           name: Running E2E tests
