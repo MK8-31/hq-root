@@ -160,6 +160,3 @@ workflows:
             branches:
               ignore: main
       - cypress/run
-            filters:
-                branches:
-                  ignore: main
