@@ -2,9 +2,6 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
-orbs:
-  cypress: cypress-io/cypress@1.29.0
-
 jobs:
   test_backend:
     docker:
@@ -119,16 +116,6 @@ jobs:
           name: test(unit)
           command: npm run test:unit
           working_directory: ~/repo/frontend
-      # test e2e
-      # - run:
-      #     name: Running E2E tests
-      #     command: cypress run
-      #     working_directory: ~/repo/e2e
-
-      # - store_artifacts:
-      #     path: e2e/cypress/videos
-      # - store_artifacts:
-      #     path: e2e/cypress/screenshots
 
   # e2e:
   #   docker:
@@ -159,4 +146,3 @@ workflows:
           filters:
             branches:
               ignore: main
-      - cypress/run
