@@ -2,8 +2,9 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
+orbs:
+  cypress: cypress-io/cypress@1.29.0
+
 jobs:
   test_backend:
     docker:
@@ -118,16 +119,16 @@ jobs:
           name: test(unit)
           command: npm run test:unit
           working_directory: ~/repo/frontend
+
+    docker:
+      - image: "cypress/included:4.1.0"
+        environment:
+          - CYPRESS_baseUrl=http://localhost:3000
+    working_directory: ~/repo/e2e
+
+    steps:
+      - checkout
       # test e2e
-      - setup_remote_docker
-      - run:
-          name: build cypress
-          command: docker run -it \
-            -v $PWD:/e2e \
-            -w /e2e \
-            -e CYPRESS_baseUrl=http://localhost:3000 \
-            cypress/included:4.1.0
-          working_directory: ~/repo/e2e
       - run:
           name: Running E2E tests
           command: cypress run
