@@ -1,6 +1,4 @@
-FROM node:16-alpine
-
-RUN mkdir /frontend
+FROM node:16-alpine as build-stage
 
 # カレントワーキングディレクトリとして 'frontend' フォルダを指定する
 WORKDIR /frontend
@@ -21,7 +19,31 @@ RUN apk update && \
 COPY . /frontend
 
 # 本番向けに圧縮しながらアプリケーションをビルドする
-# RUN npm run build
+RUN npm run build
+
+# 確認用
+# RUN vue --version
+# RUN node -v
+# RUN ls -a
+
+
+# COPY confirmation_command.sh /confirmation_command.sh
+# RUN chmod 744 /confirmation_command.sh
+# CMD ["/confirmation_command.sh"]
+
+
+# EXPOSE 3000
+
+# CMD ["npm", "run", "serve"]
+# CMD ["vue", "--version"]
+
+# ENTRYPOINT ["entrypoint.sh"]
 
 
 # docker-compose run frontend sh
+
+FROM nginx:stable-alpine as production-stage
+
+RUN mkdir /app
+COPY --from=build-stage /frontend/dist /app
+COPY nginx/nginx.conf /etc/nginx/nginx.conf

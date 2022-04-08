@@ -115,6 +115,7 @@
     }),
     created() {
       this.getTasks();
+      console.log(process.env.NODE_ENV);
     },
     methods: {
       done(id) {
