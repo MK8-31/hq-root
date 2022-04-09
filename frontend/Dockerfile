@@ -7,7 +7,7 @@ ENV LANG C.UTF-8
 ENV TZ Asia/Tokyo
 
 # `package.json` と `package-lock.json` （あれば）を両方コピーする
-COPY package*.json /app
+COPY package*.json /app/
 
 # プロジェクトの依存ライブラリをインストールする
 RUN apk update && \
@@ -16,10 +16,10 @@ RUN apk update && \
     npm install -g @vue/cli
 
 # カレントワーキングディレクトリ(つまり 'app' フォルダ)にプロジェクトのファイルやフォルダをコピーする
-COPY . /app
+COPY . /app/
 
 # 本番向けに圧縮しながらアプリケーションをビルドする
-# RUN npm run prod-build
+RUN npm run prod-build
 
 # 確認用
 # RUN vue --version
@@ -44,8 +44,8 @@ COPY . /app
 
 # 本番向け
 
-# FROM nginx:stable-alpine as production-stage
+FROM nginx:stable-alpine as production-stage
 
-# RUN mkdir /app
-# COPY --from=build-stage /app/dist /app
-# COPY nginx/nginx.conf /etc/nginx/nginx.conf
+RUN mkdir /app
+COPY --from=build-stage /app/dist /app
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
