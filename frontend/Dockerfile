@@ -19,7 +19,7 @@ RUN apk update && \
 COPY . /app
 
 # 本番向けに圧縮しながらアプリケーションをビルドする
-RUN npm run prod-build
+# RUN npm run prod-build
 
 # 確認用
 # RUN vue --version
@@ -42,8 +42,10 @@ RUN npm run prod-build
 
 # docker-compose run app sh
 
-FROM nginx:stable-alpine as production-stage
+# 本番向け
 
-RUN mkdir /app
-COPY --from=build-stage /app/dist /app
-COPY nginx/nginx.conf /etc/nginx/nginx.conf
+# FROM nginx:stable-alpine as production-stage
+
+# RUN mkdir /app
+# COPY --from=build-stage /app/dist /app
+# COPY nginx/nginx.conf /etc/nginx/nginx.conf
