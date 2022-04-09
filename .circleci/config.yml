@@ -2,6 +2,9 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
+orbs:
+  aws-ecr: circleci/aws-ecr@6.12.2
+
 jobs:
   test_backend:
     docker:
@@ -132,8 +135,33 @@ jobs:
   #     - store_artifacts:
   #         path: cypress/screenshots
 
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+  # Invoke jobs via workflows
+  # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+
+  build_and_push_image_backend:
+    machine:
+      image: ubuntu-1604:201903-01
+    steps:
+      - checkout
+      - aws-ecr/build-and-push-image:
+          account-url: AWS_ACCOUNT_URL
+          repo: "habituation-quest-backend"
+          region: AWS_REGION
+          tag: "${CIRCLE_SHA1}"
+          path: ./backend/
+
+  build_and_push_image_frontend:
+    machine:
+      image: ubuntu-1604:201903-01
+    steps:
+      - checkout
+      - aws-ecr/build-and-push-image:
+          account-url: AWS_ACCOUNT_URL
+          repo: "habituation-quest-frontend"
+          region: AWS_REGION
+          tag: "${CIRCLE_SHA1}"
+          path: ./frontend/
+
 workflows:
   version: 2
   test:
@@ -146,3 +174,27 @@ workflows:
           filters:
             branches:
               ignore: main
+  test_and_deploy:
+    jobs:
+      - test_backend:
+          filters:
+            branches:
+              only: main
+      - test_frontend:
+          filters:
+            branches:
+              only: main
+      - build_and_push_image_backend:
+          requires:
+            - test_frontend
+            - test_backend
+          filters:
+            branches:
+              only: main
+      - build_and_push_image_frontend:
+          requires:
+            - test_frontend
+            - test_backend
+          filters:
+            branches:
+              only: main
