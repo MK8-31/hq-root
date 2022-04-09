@@ -14,38 +14,46 @@ apt-get update && apt-get install -y yarn
 
 RUN apt install git
 
-RUN mkdir /backend
-# コンテナ内にbackendディレクトリを作成
+# 本番環境用
+# -y	問い合わせがあった場合はすべて「y」と答える
+RUN apt-get install -y sudo nginx
 
-WORKDIR /backend
-# 作成したbackendディレクトリを作業用ディレクトリとして設定
+# appディレクトリを作業用ディレクトリとして設定(appディレクトリは自動で作成される)
+WORKDIR /app
 
-COPY Gemfile /backend/Gemfile
-COPY Gemfile.lock /backend/Gemfile.lock
-# ローカルの Gemfile と Gemfile.lock をコンテナ内のbackend配下にコピー
+# ローカルの Gemfile と Gemfile.lock をコンテナ内のapp配下にコピー
+COPY Gemfile /app/Gemfile
+COPY Gemfile.lock /app/Gemfile.lock
 
-RUN bundle install
 # コンテナ内にコピーした Gemfile の bundle install
+RUN bundle install
 
-COPY . /backend
-# ローカルのbackend配下のファイルをコンテナ内のbackend配下にコピー
+# ローカルのapp配下のファイルをコンテナ内のapp配下にコピー
+COPY . /app
+
+
+RUN mkdir -p tmp/sockets
+RUN mkdir tmp/pids
 
 # Add a script to be executed every time the container starts.
-COPY entrypoint.sh /usr/bin/
-RUN chmod +x /usr/bin/entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
+# COPY entrypoint.sh /usr/bin/
+# RUN chmod +x /usr/bin/entrypoint.sh
+# ENTRYPOINT ["entrypoint.sh"]
 # EXPOSE 3000
 
 # # nginx
-# RUN groupadd nginx
-# RUN useradd -g nginx nginx
-# ADD nginx/nginx.conf /etc/nginx/nginx.conf
+# groupaddコマンドで新しいグループを作成
+RUN groupadd nginx
+# useraddコマンドで新しいユーザーを作成
+# -g, --gid GROUP プライマリグループのグループ名かグループIDを指定
+RUN useradd -g nginx nginx
+ADD nginx/nginx.conf /etc/nginx/nginx.conf
 
-# EXPOSE 80
+RUN chmod +x /app/entrypoint.sh
 
-# RUN chmod +x /backend/entrypoint.sh
+EXPOSE 80
 
-# CMD ["/backend/entrypoint.sh"]
+CMD ["/app/entrypoint.sh"]
 
 
 # docker-compose run web rails new . --webpack=vue --force --database=mysql --skip-bundle

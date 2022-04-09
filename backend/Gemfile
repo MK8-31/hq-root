@@ -28,6 +28,11 @@ gem 'rack-cors'
 # Ruby 3.1 で net-smtp ライブラリーが gem 化
 gem 'net-smtp', require: false
 
+gem 'net-pop', require: false
+
+gem 'net-imap', require: false
+
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
