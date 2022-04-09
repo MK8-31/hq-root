@@ -130,7 +130,7 @@
         this.items.push({ id: id, task: todo, done: false });
       },
       async getTasks() {
-        const response = await axios.get("http://localhost:3030/api/v1/tasks");
+        const response = await axios.get("/api/v1/tasks");
         this.items = response.data.tasks.map((task) => {
           return { id: task.id, task: task.task, done: task.done };
         });

@@ -1,13 +1,13 @@
 FROM node:16-alpine as build-stage
 
-# カレントワーキングディレクトリとして 'frontend' フォルダを指定する
-WORKDIR /frontend
+# カレントワーキングディレクトリとして 'app' フォルダを指定する
+WORKDIR /app
 
 ENV LANG C.UTF-8
 ENV TZ Asia/Tokyo
 
 # `package.json` と `package-lock.json` （あれば）を両方コピーする
-COPY package*.json /frontend
+COPY package*.json /app
 
 # プロジェクトの依存ライブラリをインストールする
 RUN apk update && \
@@ -16,10 +16,10 @@ RUN apk update && \
     npm install -g @vue/cli
 
 # カレントワーキングディレクトリ(つまり 'app' フォルダ)にプロジェクトのファイルやフォルダをコピーする
-COPY . /frontend
+COPY . /app
 
 # 本番向けに圧縮しながらアプリケーションをビルドする
-RUN npm run build
+RUN npm run prod-build
 
 # 確認用
 # RUN vue --version
@@ -40,10 +40,10 @@ RUN npm run build
 # ENTRYPOINT ["entrypoint.sh"]
 
 
-# docker-compose run frontend sh
+# docker-compose run app sh
 
 FROM nginx:stable-alpine as production-stage
 
 RUN mkdir /app
-COPY --from=build-stage /frontend/dist /app
+COPY --from=build-stage /app/dist /app
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
