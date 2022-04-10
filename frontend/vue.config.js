@@ -5,4 +5,11 @@ module.exports = defineConfig({
     port: 3000,
   },
   transpileDependencies: ["vuetify"],
+  css: {
+    loaderOptions: {
+      scss: {
+        additionalData: '@import "./src/styles/common/common.scss";',
+      },
+    },
+  },
 });

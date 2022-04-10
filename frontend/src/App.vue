@@ -1,27 +1,33 @@
 <template>
-  <v-app id="inspire">
-    <v-navigation-drawer app class="pt-4" color="grey lighten-3" mini-variant>
-      <v-avatar
-        v-for="n in 6"
-        :key="n"
-        :color="`grey ${n === 1 ? 'darken' : 'lighten'}-1`"
-        :size="n === 1 ? 36 : 20"
-        class="d-block text-center mx-auto mb-9"
-      ></v-avatar>
-    </v-navigation-drawer>
-
+  <v-app>
+    <AppHeader />
     <v-main>
-      <TodoList />
+      <router-view></router-view>
     </v-main>
+    <AppFooter />
   </v-app>
 </template>
 
 <script>
-  import TodoList from "./components/TodoList.vue";
+  import AppHeader from "./components/AppHeader.vue";
+  import AppFooter from "./components/AppFooter.vue";
+  /*
+  作りたいページ
+  ホームページ
+  新規登録ページ
+  ログインページ
+  ヘルプページ
+
+  作りたい部品
+  ヘッダー
+  フッター
+
+  */
 
   export default {
     components: {
-      TodoList,
+      AppHeader,
+      AppFooter,
     },
   };
 </script>
