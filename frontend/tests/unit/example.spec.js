@@ -1,15 +1,16 @@
 import { shallowMount } from "@vue/test-utils";
 import { mount } from "@vue/test-utils";
-import TodoList from "@/components/TodoList.vue";
+import Login from "@/components/LoginPage.vue";
 
-describe("TodoList.vue", () => {
-  test("renders props.msg when passed", () => {
-    const msg = "new message";
-    const wrapper = mount(TodoList);
-    expect(wrapper.text()).toMatch("TodoList");
-    console.log(wrapper.text());
+describe("Login", () => {
+  it("mount render a child component", () => {
+    // mount は全体テスト用（子コンポーネントも含めてテストしたい場合など）
+    const wrapper = mount(Login);
+    expect(wrapper.html()).toContain("Login");
   });
-  test("two plus two is four", () => {
-    expect(2 + 2).toBe(4);
+  it("mount render a child component", () => {
+    // shallowMount は単体テスト用
+    const wrapper = shallowMount(Login);
+    expect(wrapper.html()).toContain("Login");
   });
 });
