@@ -4,7 +4,7 @@ version: 2.1
 
 orbs:
   aws-ecr: circleci/aws-ecr@6.12.2
-
+  aws-ecs: circleci/aws-ecs@1.3.0
 jobs:
   test_backend:
     docker:
@@ -195,6 +195,28 @@ workflows:
           requires:
             - test_frontend
             - test_backend
+          filters:
+            branches:
+              only: main
+      - aws-ecs/deploy-service-update:
+          requires:
+            - build_and_push_image_frontend
+            - build_and_push_image_backend
+          family: "habituation-quest-task-backend"
+          service-name: "h-q-service-backend"
+          cluster-name: "habituation-quest-cluster"
+          container-image-name-updates: "container=habituation-quest-container-backend,tag=${CIRCLE_SHA1}"
+          filters:
+            branches:
+              only: main
+      - aws-ecs/deploy-service-update:
+          requires:
+            - build_and_push_image_frontend
+            - build_and_push_image_backend
+          family: "h-q-task-frontend"
+          service-name: "h-q-service-frontend"
+          cluster-name: "habituation-quest-cluster"
+          container-image-name-updates: "container=habituation-quest-container-frontend,tag=${CIRCLE_SHA1}"
           filters:
             branches:
               only: main
