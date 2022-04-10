@@ -123,10 +123,22 @@
         console.log(this.items[id - 1].done);
       },
       deleteTask(id) {
-        this.items = this.items.filter((item) => item.id !== id);
+        this.items = this.items
+          .map((item) => {
+            if (item.id == id) {
+              return;
+            }
+            if (item.id > id) {
+              item.id--;
+            }
+            return item;
+          })
+          .filter(Boolean);
       },
       addTask(todo) {
         let id = this.items.length + 1;
+
+        console.log(id);
         this.items.push({ id: id, task: todo, done: false });
       },
       async getTasks() {

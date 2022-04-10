@@ -18,8 +18,7 @@ RUN apk update && \
 # カレントワーキングディレクトリ(つまり 'app' フォルダ)にプロジェクトのファイルやフォルダをコピーする
 COPY . /app/
 
-# 本番向けに圧縮しながらアプリケーションをビルドする
-RUN npm run prod-build
+
 
 # 確認用
 # RUN vue --version
@@ -43,9 +42,12 @@ RUN npm run prod-build
 # docker-compose run app sh
 
 # 本番向け
+# 本番向けに圧縮しながらアプリケーションをビルドする
 
-FROM nginx:stable-alpine as production-stage
+# RUN npm run prod-build
 
-RUN mkdir /app
-COPY --from=build-stage /app/dist /app
-COPY nginx/nginx.conf /etc/nginx/nginx.conf
+# FROM nginx:stable-alpine as production-stage
+
+# RUN mkdir /app
+# COPY --from=build-stage /app/dist /app
+# COPY nginx/nginx.conf /etc/nginx/nginx.conf

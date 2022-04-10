@@ -28,13 +28,13 @@ services:
     env_file:
       - ./db.env
     volumes:
-      - ./backend:/backend:cached
-      - bundle_data:/usr/local/bundle:cached
+      - ./backend:/app:cached
+      - bundle_data:/usr/local/bundle:cached # 名前付きVolume
       - log-data:/var/log
-      - /backend/vendor
-      - /backend/tmp
-      - /backend/log
-      - /backend/.git
+      - /app/vendor # 匿名Volume
+      - /app/tmp
+      - /app/log
+      - /app/.git
     environment:
       TZ: Asia/Tokyo
     depends_on:
@@ -52,7 +52,7 @@ services:
     build: ./frontend/
     image: frontend
     volumes:
-      - ./frontend:/frontend
+      - ./frontend:/app
     ports:
       # 開発環境
       - 3000:3000
