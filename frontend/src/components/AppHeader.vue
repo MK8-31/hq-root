@@ -4,31 +4,49 @@
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
       <v-toolbar-title>HabituationQuest</v-toolbar-title>
       <v-spacer></v-spacer>
-      <div class="text-center">
-        <v-menu offset-y>
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn icon class="right" dark v-bind="attrs" v-on="on">
-              <v-icon>mdi-information</v-icon>
-            </v-btn>
-          </template>
-          <v-list>
-            <v-list-item link v-for="(item, index) in items" :key="index">
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-      </div>
-      <v-btn icon class="right">
-        <v-icon>mdi-help</v-icon>
-      </v-btn>
-
-      <v-btn icon class="right" @click="settings = true">
-        <v-icon>mdi-cog-outline</v-icon>
-      </v-btn>
-
-      <v-btn icon class="right">
-        <v-icon>mdi-account</v-icon>
-      </v-btn>
+      <v-tabs right>
+        <v-tab link to="/record">
+          <v-btn icon class="right">
+            <v-icon>mdi-lead-pencil</v-icon>
+          </v-btn>
+        </v-tab>
+        <v-tab link to="/show_record">
+          <v-btn icon class="right">
+            <v-icon>mdi-book-open-page-variant-outline</v-icon>
+          </v-btn>
+        </v-tab>
+        <v-tab link to="/show_record">
+          <div class="text-center">
+            <v-menu offset-y>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn icon class="right" dark v-bind="attrs" v-on="on">
+                  <v-icon>mdi-information</v-icon>
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-item link v-for="(item, index) in items" :key="index">
+                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </div>
+        </v-tab>
+        <v-tab link to="/help">
+          <v-btn icon class="right">
+            <v-icon>mdi-help</v-icon>
+          </v-btn>
+        </v-tab>
+        <v-tab link to="/show_record">
+          <v-btn icon class="right">
+            <v-icon>mdi-account-switch</v-icon>
+          </v-btn>
+        </v-tab>
+        <v-tab link to="/account">
+          <v-btn icon class="right">
+            <v-icon>mdi-account</v-icon>
+          </v-btn></v-tab
+        >
+      </v-tabs>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" fixed temporary>
       <v-list nav dense>

@@ -6,9 +6,9 @@ export default {
       url: "/",
     },
     {
-      icon: "mdi-information",
-      name: "ABOUT",
-      url: "/about",
+      icon: "mdi-help",
+      name: "Help",
+      url: "/help",
     },
     {
       icon: "mdi-login",
@@ -23,22 +23,22 @@ export default {
     {
       icon: "mdi-account-plus",
       name: "SingUp",
-      url: "#",
+      url: "/signup",
     },
     {
-      icon: "mdi-minus",
-      name: "BLOG",
-      url: "#",
+      icon: "mdi-lead-pencil",
+      name: "記録する",
+      url: "/record",
     },
     {
-      icon: "mdi-minus",
-      name: "ACCESS",
-      url: "#",
+      icon: "mdi-book-open-page-variant-outline",
+      name: "記録を見る",
+      url: "/show_record",
     },
     {
-      icon: "mdi-help",
-      name: "Help",
-      url: "/help",
+      icon: "mdi-account",
+      name: "Account",
+      url: "/account",
     },
   ],
 };
