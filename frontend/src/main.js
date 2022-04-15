@@ -12,6 +12,7 @@ import HelpPage from "@/components/HelpPage.vue";
 import AccountPage from "@/components/AccountPage.vue";
 import RecordPage from "@/components/RecordPage.vue";
 import ShowRecordPage from "@/components/ShowRecordPage.vue";
+import ClassChangePage from "@/components/ClassChangePage.vue";
 
 Axios.defaults.baseURL =
   process.env.NODE_ENV === "production"
@@ -29,6 +30,7 @@ const routes = [
   { path: "/account", component: AccountPage },
   { path: "/record", component: RecordPage },
   { path: "/show_record", component: ShowRecordPage },
+  { path: "/class_change", component: ClassChangePage },
 ];
 
 const router = new VueRouter({

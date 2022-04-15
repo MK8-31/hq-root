@@ -36,7 +36,7 @@
             <v-icon>mdi-help</v-icon>
           </v-btn>
         </v-tab>
-        <v-tab link to="/show_record">
+        <v-tab link to="/class_change">
           <v-btn icon class="right">
             <v-icon>mdi-account-switch</v-icon>
           </v-btn>

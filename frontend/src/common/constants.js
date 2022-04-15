@@ -40,5 +40,10 @@ export default {
       name: "Account",
       url: "/account",
     },
+    {
+      icon: "mdi-account-switch",
+      name: "転職",
+      url: "/class_change",
+    },
   ],
 };
