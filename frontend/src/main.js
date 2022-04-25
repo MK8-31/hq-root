@@ -3,6 +3,9 @@ import App from "./App.vue";
 import vuetify from "./plugins/vuetify";
 import Axios from "axios";
 import VueRouter from "vue-router";
+import VueCookies from "vue-cookies";
+
+Vue.use(VueCookies);
 
 import HomePage from "@/components/HomePage.vue";
 import LoginPage from "@/components/LoginPage.vue";

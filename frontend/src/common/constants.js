@@ -2,28 +2,13 @@ export default {
   menuItems: [
     {
       icon: "mdi-home",
-      name: "HOME",
+      name: "Home",
       url: "/",
     },
     {
       icon: "mdi-help",
       name: "Help",
       url: "/help",
-    },
-    {
-      icon: "mdi-login",
-      name: "Login",
-      url: "/login",
-    },
-    {
-      icon: "mdi-logout",
-      name: "Logout",
-      url: "/logout",
-    },
-    {
-      icon: "mdi-account-plus",
-      name: "SingUp",
-      url: "/signup",
     },
     {
       icon: "mdi-lead-pencil",

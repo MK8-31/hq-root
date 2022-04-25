@@ -1,5 +1,11 @@
 <template>
-  <v-container>
-    Logout
-  </v-container>
+  <div>
+    <v-bth>ログアウト</v-bth>
+    <v-dialog>
+      <v-card>
+        <v-card-title>ログアウト</v-card-title>
+        <v-card-text></v-card-text>
+      </v-card>
+    </v-dialog>
+  </div>
 </template>

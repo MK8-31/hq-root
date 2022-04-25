@@ -7,11 +7,12 @@ class User < ActiveRecord::Base
          :registerable,
          :recoverable,
          :rememberable,
-         :validatable,
-         :confirmable
+         :validatable
+
+  #  :confirmable
   include DeviseTokenAuth::Concerns::User
 
-  validates :nickname, presence: true
-  validates :email, presence: true
-  validates :password, presence: true
+  # validates :nickname, presence: true
+  # validates :email, presence: true
+  # validates :password, presence: true
 end
