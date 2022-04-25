@@ -109,6 +109,7 @@
             this.$cookies.set("access-token", response.headers["access-token"]);
             this.$cookies.set("client", response.headers["client"]);
             this.$cookies.set("uid", decodeURI(response.headers["uid"]));
+            this.$store.commit("setIsLoggedIn", true);
             this.$router.push("/");
           })
           .catch((error) => {

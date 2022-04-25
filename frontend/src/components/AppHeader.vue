@@ -131,17 +131,22 @@
           { title: "Click Me 2" },
         ],
         logout_dialog: false,
-        isLoggedIn: false,
       };
     },
-    // computed: {
-    //   isLoggedIn() {
-    //     return this.isLoggedIn;
-    //   },
-    // },
+    computed: {
+      isLoggedIn() {
+        return this.$store.state.isLoggedIn;
+      },
+    },
     mounted() {
-      this.isLoggedIn = this.$cookies.get("access-token") ? true : false;
-      console.log(this.isLoggedIn, this.$cookies.get("access-token"));
+      this.$store.commit(
+        "setIsLoggedIn",
+        this.$cookies.get("access-token") ? true : false
+      );
+      console.log(
+        this.$store.state.isLoggedIn,
+        this.$cookies.get("access-token")
+      );
     },
     methods: {
       async logout() {
@@ -161,12 +166,12 @@
           .then((response) => {
             console.log(response);
             this.logout_dialog = false;
-            this.isLoggedIn = false;
+            this.$store.commit("setIsLoggedIn", false);
             this.$cookies.remove("uid");
             this.$cookies.remove("access-token");
             this.$cookies.remove("client");
             if (this.$router.path !== "/") {
-              this.$router.path("/");
+              this.$router.puth("/");
             }
           })
           .catch((err) => {
@@ -187,13 +192,20 @@
   //     display: none !important;
   //   }
   // }
-  .v-toolbar {
-    .v-btn.right {
-      display: none;
+  // .v-toolbar {
+  //   .v-btn.right {
+  //     display: none;
 
-      @include display_pc {
-        display: block !important;
-      }
+  //     @include display_pc {
+  //       display: block !important;
+  //     }
+  //   }
+  // }
+  .v-tab {
+    display: none;
+
+    @include display_pc {
+      display: block !important;
     }
   }
   .bar-icon {

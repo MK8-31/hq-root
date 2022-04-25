@@ -4,6 +4,10 @@ import vuetify from "./plugins/vuetify";
 import Axios from "axios";
 import VueRouter from "vue-router";
 import VueCookies from "vue-cookies";
+import Vuex from "vuex";
+import store from "./store/store";
+
+Vue.use(Vuex);
 
 Vue.use(VueCookies);
 
@@ -46,4 +50,5 @@ new Vue({
   vuetify,
   render: (h) => h(App),
   router: router,
+  store,
 }).$mount("#app");
