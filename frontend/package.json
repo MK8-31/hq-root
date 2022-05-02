@@ -8,6 +8,7 @@
     "build": "vue-cli-service build",
     "prod-build": "vue-cli-service build --mode=production",
     "test:unit": "vue-cli-service test:unit",
+    "test:unit:watch": "vue-cli-service test:unit --watch",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint"
   },
@@ -34,6 +35,7 @@
     "babel-jest": "^27.0.6",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
+    "flush-promises": "^1.0.2",
     "jest": "^27.0.5",
     "sass": "~1.32.0",
     "vue-cli-plugin-vuetify": "~2.4.8",

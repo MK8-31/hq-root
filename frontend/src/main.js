@@ -6,6 +6,13 @@ import VueRouter from "vue-router";
 import VueCookies from "vue-cookies";
 import Vuex from "vuex";
 import store from "./store/store";
+import * as VeeValidate from "vee-validate";
+import ja from "vee-validate/dist/locale/ja";
+import { localize } from "vee-validate";
+
+Vue.config.productionTip = false;
+localize("ja", ja);
+Vue.use(VeeValidate, { locale: ja });
 
 Vue.use(Vuex);
 
@@ -41,6 +48,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
+  mode: "history",
   routes,
 });
 

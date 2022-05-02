@@ -1,6 +1,12 @@
 <template>
   <v-card width="400px" class="mx-auto mt-5">
-    <v-alert v-if="errorMessage" type="error">{{ errorMessage }}</v-alert>
+    <v-alert v-if="errorMessages.length != 0" type="error">
+      <ul>
+        <li v-for="errorMessage in errorMessages" :key="errorMessage">
+          {{ errorMessage }}
+        </li>
+      </ul>
+    </v-alert>
     <v-card-title>
       <h1 class="display-1">ユーザー登録</h1>
     </v-card-title>
@@ -14,6 +20,7 @@
             name="ニックネーム"
           >
             <v-text-field
+              id="nickname-field"
               v-model="nickname"
               prepend-icon="mdi-card-account-details-outline"
               type="email"
@@ -29,6 +36,7 @@
             name="メールアドレス"
           >
             <v-text-field
+              id="email-field"
               v-model="email"
               prepend-icon="mdi-email"
               type="email"
@@ -44,6 +52,7 @@
             name="パスワード"
           >
             <v-text-field
+              id="password-field"
               v-model="password"
               @click:append="showPassword = !showPassword"
               prepend-icon="mdi-lock"
@@ -55,7 +64,11 @@
             />
           </ValidationProvider>
           <v-card-actions>
-            <v-btn class="info" @click="submit()" :disabled="invalid"
+            <v-btn
+              id="submit"
+              class="info"
+              @click="submit()"
+              :disabled="invalid"
               >登録</v-btn
             >
           </v-card-actions>
@@ -93,7 +106,8 @@
       email: "",
       password: "",
       invalid: false,
-      errorMessage: "",
+      errorMessages: [],
+      signup: false,
     }),
     methods: {
       async submit() {
@@ -105,6 +119,7 @@
             password: this.password,
           })
           .then((response) => {
+            this.signup = true;
             console.log(response);
             this.$cookies.set("access-token", response.headers["access-token"]);
             this.$cookies.set("client", response.headers["client"]);
@@ -113,15 +128,14 @@
             this.$router.push("/");
           })
           .catch((error) => {
-            this.errorMessage = "";
+            this.errorMessages = [];
             console.error(error);
             console.error(error.response);
-            error.response.data.errors.forEach((error) => {
+            error.response.data.errors.full_messages.forEach((error) => {
               console.error(error);
             });
-            error.response.data.errors.forEach((error) => {
-              this.errorMessage += error;
-              this.errorMessage += "\n";
+            error.response.data.errors.full_messages.forEach((error) => {
+              this.errorMessages.push(error);
             });
           });
       },
