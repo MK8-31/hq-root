@@ -14,11 +14,11 @@ User.create!(
 
 # 追加のユーザーをまとめて生成する
 20.times do |n|
-  name = Faker::Name.name
+  nickname = Faker::Name.name
   email = "example-#{n + 1}@example.com"
   password = 'password'
   User.create!(
-    nickname: name,
+    nickname: nickname,
     email: email,
     password: password,
     password_confirmation: password,
@@ -34,3 +34,8 @@ priest = Job.create!(name: 'Priest')
 users = User.order(:created_at)
 
 users.each { |user| user.records.create!(job_id: warrior.id) }
+
+users.each do |user|
+  task_name = Faker::Lorem.sentence(word_count: 3)
+  user.tasks.create!(name: task_name)
+end
