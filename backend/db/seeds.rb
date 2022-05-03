@@ -5,3 +5,32 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+User.create!(
+  nickname: 'example',
+  email: 'example@example.com',
+  password: 'password',
+)
+
+# 追加のユーザーをまとめて生成する
+20.times do |n|
+  name = Faker::Name.name
+  email = "example-#{n + 1}@example.com"
+  password = 'password'
+  User.create!(
+    nickname: name,
+    email: email,
+    password: password,
+    password_confirmation: password,
+  )
+end
+
+warrior = Job.create!(name: 'Warrior')
+
+mage = Job.create!(name: 'Mage')
+
+priest = Job.create!(name: 'Priest')
+
+users = User.order(:created_at)
+
+users.each { |user| user.records.create!(job_id: warrior.id) }

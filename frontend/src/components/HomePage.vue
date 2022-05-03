@@ -1,5 +1,5 @@
 <template>
-    <v-container>
-        Home
-    </v-container>
+  <v-container>
+    Home change
+  </v-container>
 </template>

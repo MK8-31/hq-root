@@ -10,7 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_16_234303) do
+ActiveRecord::Schema.define(version: 2022_05_03_064430) do
+
+  create_table "jobs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "records", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "level", default: 1
+    t.integer "exp", default: 0
+    t.bigint "user_id", null: false
+    t.bigint "job_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["job_id"], name: "index_records_on_job_id"
+    t.index ["user_id", "job_id"], name: "index_records_on_user_id_and_job_id", unique: true
+    t.index ["user_id"], name: "index_records_on_user_id"
+  end
 
   create_table "tasks", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "task"
@@ -45,4 +63,6 @@ ActiveRecord::Schema.define(version: 2022_04_16_234303) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "records", "jobs"
+  add_foreign_key "records", "users"
 end
