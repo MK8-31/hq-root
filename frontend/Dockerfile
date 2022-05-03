@@ -44,10 +44,10 @@ COPY . /app/
 # 本番向け
 # 本番向けに圧縮しながらアプリケーションをビルドする
 
-# RUN npm run prod-build
+RUN npm run prod-build
 
-# FROM nginx:stable-alpine as production-stage
+FROM nginx:stable-alpine as production-stage
 
-# RUN mkdir /app
-# COPY --from=build-stage /app/dist /app
-# COPY nginx/nginx.conf /etc/nginx/nginx.conf
+RUN mkdir /app
+COPY --from=build-stage /app/dist /app
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
