@@ -35,7 +35,8 @@ RSpec.describe User, type: :model do
 
     it 'メールが重複した場合、無効' do
       user = FactoryBot.create(:user)
-      STDOUT.puts(user.email)
+
+      # STDOUT.puts(user.email)
       Rails.logger.info user.email
       duplicate_user =
         User.new(nickname: 'testsss', email: user.email, password: 'password')

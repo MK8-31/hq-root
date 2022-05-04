@@ -13,8 +13,8 @@ RSpec.describe Task, type: :model do
     expect(task.valid?).to eq false
   end
 
-  it 'タスク名が15文字より多い場合失敗' do
-    task = @user.tasks.build(name: 'a' * 16)
+  it 'タスク名が30文字より多い場合失敗' do
+    task = @user.tasks.build(name: 'a' * 31)
     expect(task.valid?).to eq false
   end
 end

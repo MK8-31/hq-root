@@ -10,7 +10,7 @@ RSpec.describe 'Api::V1::Auth::Registrations', type: :request do
 
     context 'パラメータが妥当な場合' do
       it 'リクエストが成功すること' do
-        STDOUT.puts("user_params: #{user_params}")
+        # STDOUT.puts("user_params: #{user_params}")
 
         # post api_v1_user_registration_path, params: user_params
         post api_v1_user_registration_path,
@@ -19,8 +19,9 @@ RSpec.describe 'Api::V1::Auth::Registrations', type: :request do
                email: 'hoge@hoge.hoge.com',
                password: 'hogehoge',
              }
-        STDOUT.puts(response.body)
-        STDOUT.puts(response.header)
+
+        # STDOUT.puts(response.body)
+        # STDOUT.puts(response.header)
         expect(response.status).to eq 200
       end
 
@@ -62,7 +63,7 @@ RSpec.describe 'Api::V1::Auth::Registrations', type: :request do
 
     #   it 'エラーが表示されること' do
     #     post api_v1_user_registration_path, params: invalid_user_params
-    #     STDOUT.puts(response.body)
+    #     # STDOUT.puts(response.body)
     #     expect(response.body).to include "Nickname can't be blank"
     #   end
     # end

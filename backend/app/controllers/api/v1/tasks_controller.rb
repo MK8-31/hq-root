@@ -1,18 +1,53 @@
 class Api::V1::TasksController < ApplicationController
-  def index
-    # この辺りはかなり簡略化しています。
-    # 本来であれば seeds.rb を作成した方が良いです...
-    if Task.count.zero?
-      [
-        { id: 1, task: 'aaa', done: false },
-        { id: 2, task: 'bbb', done: false },
-        { id: 3, task: 'ccc', done: true },
-      ].each do |hash|
-        Task.create!(id: hash[:id], task: hash[:task], done: hash[:done])
-      end
-    end
+  before_action :authenticate_api_v1_user!
+  before_action :set_task, only: %i[show update destroy]
 
-    # この辺りも本来であればきちんとシリアライズした方が良いです...
-    render json: { tasks: Task.all }
+  def index
+    tasks = Task.all
+    render json: { status: 'SUCCESS', message: 'Loaded tasks', data: tasks }
+  end
+
+  def show
+    render json: { status: 'SUCCESS', message: 'Loaded the task', data: @task }
+  end
+
+  def create
+    task = current_api_v1_user.tasks.build(task_params)
+    if task.save
+      render json: { status: 'SUCCESS', data: task }
+    else
+      render json: { status: 'ERROR', data: task.errors }
+    end
+  end
+
+  def destroy
+    @task.destroy
+    render json: { status: 'SUCCESS', message: 'Deleted the task', data: @task }
+  end
+
+  def update
+    if @task.update(task_params)
+      render json: {
+               status: 'SUCCESS',
+               message: 'Updated the post',
+               data: @task,
+             }
+    else
+      render json: {
+               status: 'ERROR',
+               message: 'Not updated',
+               data: @task.errors,
+             }
+    end
+  end
+
+  private
+
+  def set_task
+    @task = Task.find(params[:id])
+  end
+
+  def task_params
+    params.require(:task).permit(:name)
   end
 end
