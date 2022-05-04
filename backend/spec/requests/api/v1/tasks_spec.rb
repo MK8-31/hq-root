@@ -20,6 +20,17 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
       expect(json['data'].length).to eq(10)
     end
 
+    it 'ログインしていない状態ですべてのタスクを取得するとエラー' do
+      get '/api/v1/tasks'
+      json = JSON.parse(response.body)
+
+      expect(response.status).to eq(401)
+
+      expect(json['errors'][0]).to eq(
+        'ログインもしくはアカウント登録してください。',
+      )
+    end
+
     it 'ログイン状態で特定のタスクを取得' do
       task_name = 'スクワット100回'
       task = @current_user.tasks.create(name: task_name)
@@ -38,6 +49,20 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
       expect(data['name']).to eq(task_name)
     end
 
+    it 'ログインしていない状態で特定のタスクを取得するとエラー' do
+      task_name = 'スクワット100回'
+      task = @current_user.tasks.create(name: task_name)
+
+      get "/api/v1/tasks/#{task.id}"
+      json = JSON.parse(response.body)
+
+      expect(response.status).to eq(401)
+
+      expect(json['errors'][0]).to eq(
+        'ログインもしくはアカウント登録してください。',
+      )
+    end
+
     it 'ログイン状態でタスクを作成' do
       task_name = 'create_task'
       auth_token = login(@current_user)
@@ -51,6 +76,20 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
 
       expect(response.status).to eq(200)
       expect(data['name']).to eq(task_name)
+    end
+
+    it 'ログインしていない状態でタスクを作成しようとするとエラー' do
+      task_name = 'create_task'
+      params = { task: { name: task_name } }
+
+      post '/api/v1/tasks', params: params
+      json = JSON.parse(response.body)
+
+      expect(response.status).to eq(401)
+
+      expect(json['errors'][0]).to eq(
+        'ログインもしくはアカウント登録してください。',
+      )
     end
 
     it 'ログイン状態でタスクを編集' do
@@ -68,6 +107,21 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
       expect(data['name']).to eq(task_name)
     end
 
+    it 'ログインしていない状態でタスクを編集するとエラー' do
+      task_name = 'create_task'
+      task = @current_user.tasks.create(name: task_name)
+      params = { task: { name: task_name } }
+
+      put "/api/v1/tasks/#{task.id}", params: params
+      json = JSON.parse(response.body)
+
+      expect(response.status).to eq(401)
+
+      expect(json['errors'][0]).to eq(
+        'ログインもしくはアカウント登録してください。',
+      )
+    end
+
     it 'ログイン状態でタスクを削除' do
       task_name = 'tasks to be deleted'
       task = @current_user.tasks.create!(name: task_name)
@@ -82,6 +136,20 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
 
       expect(response.status).to eq(200)
       expect(data['name']).to eq(task_name)
+    end
+
+    it 'ログインしていない状態でタスクを削除するとエラー' do
+      task_name = 'create_task'
+      task = @current_user.tasks.create(name: task_name)
+
+      delete "/api/v1/tasks/#{task.id}"
+      json = JSON.parse(response.body)
+
+      expect(response.status).to eq(401)
+
+      expect(json['errors'][0]).to eq(
+        'ログインもしくはアカウント登録してください。',
+      )
     end
   end
 end
