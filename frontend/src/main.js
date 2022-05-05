@@ -27,6 +27,10 @@ import AccountPage from "@/components/AccountPage.vue";
 import RecordPage from "@/components/RecordPage.vue";
 import ShowRecordPage from "@/components/ShowRecordPage.vue";
 import ClassChangePage from "@/components/ClassChangePage.vue";
+import TaskListPage from "@/components/TaskListPage.vue";
+import TaskPage from "@/components/TaskPage.vue";
+import TaskCreatePage from "@/components/TaskCreatePage.vue";
+import TaskEditPage from "@/components/TaskEditPage.vue";
 
 Axios.defaults.baseURL =
   process.env.NODE_ENV === "production"
@@ -45,6 +49,10 @@ const routes = [
   { path: "/record", component: RecordPage },
   { path: "/show_record", component: ShowRecordPage },
   { path: "/class_change", component: ClassChangePage },
+  { path: "/task_list", component: TaskListPage },
+  { path: "/task/:id", component: TaskPage },
+  { path: "/task_create", component: TaskCreatePage },
+  { path: "/task_edit/:id", component: TaskEditPage },
 ];
 
 const router = new VueRouter({

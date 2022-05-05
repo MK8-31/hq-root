@@ -138,16 +138,6 @@
         return this.$store.state.isLoggedIn;
       },
     },
-    mounted() {
-      this.$store.commit(
-        "setIsLoggedIn",
-        this.$cookies.get("access-token") ? true : false
-      );
-      console.log(
-        this.$store.state.isLoggedIn,
-        this.$cookies.get("access-token")
-      );
-    },
     methods: {
       async logout() {
         console.log({
@@ -171,7 +161,7 @@
             this.$cookies.remove("access-token");
             this.$cookies.remove("client");
             if (this.$router.path !== "/") {
-              this.$router.puth("/");
+              this.$router.push("/");
             }
           })
           .catch((err) => {

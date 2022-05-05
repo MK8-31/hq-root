@@ -6,6 +6,11 @@ export default {
       url: "/",
     },
     {
+      icon: "mdi-clipboard-outline",
+      name: "Task",
+      url: "/task_list",
+    },
+    {
       icon: "mdi-help",
       name: "Help",
       url: "/help",

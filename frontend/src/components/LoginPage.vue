@@ -95,6 +95,9 @@
       },
     },
     methods: {
+      /**
+       * ログインをする関数
+       */
       async submit() {
         console.log(this.email, this.password);
         await axios
@@ -106,9 +109,17 @@
             this.login = true;
             console.log("ログイン成功");
             console.log(response);
+            // クッキーにログイン保持に必要なヘッダー情報を保存
             this.$cookies.set("access-token", response.headers["access-token"]);
             this.$cookies.set("client", response.headers["client"]);
             this.$cookies.set("uid", decodeURI(response.headers["uid"]));
+            // vuexにログイン保持に必要なヘッダー情報を保存
+            this.$store.commit(
+              "setRequestHeadersRequiredToMaintainLoginStatus",
+              response.headers["access-token"],
+              response.headers["client"],
+              decodeURI(response.headers["uid"])
+            );
             this.$store.commit("setIsLoggedIn", true);
             this.$router.push("/");
           })
