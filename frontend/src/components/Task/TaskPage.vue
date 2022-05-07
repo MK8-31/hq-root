@@ -1,91 +1,35 @@
 <template>
   <div>
-    <h1 class="text-center mt-5 mb-5">タスク編集</h1>
+    <h1 class="text-center mt-5 mb-5">タスク</h1>
     <v-card class="mx-auto px-5 py-5" max-width="500">
-      <v-alert id="error-message" v-if="errorMessage" type="error">{{
-        errorMessage
-      }}</v-alert>
-      <validation-observer ref="observer" v-slot="{ invalid }">
-        <v-form ref="form" width="400">
-          <validation-provider
-            v-slot="{ errors }"
-            name="タスク名"
-            rules="required|max:30"
-          >
-            <v-text-field
-              v-model="taskName"
-              label="タスク名"
-              required
-              :error-messages="errors"
-            ></v-text-field>
-          </validation-provider>
+      <h2 id="taskName">{{ task.name }}</h2>
 
-          <v-btn
-            color="primary"
-            class="mr-4"
-            @click="updateTask"
-            :disabled="(isSameTaskName || invalid)"
-          >
-            <v-icon>mdi-cached</v-icon>更新
-          </v-btn>
-          <v-btn color="error" @click="deleteDialog = true"
-            ><v-icon>mdi-delete</v-icon>削除</v-btn
-          >
-          <br />
-          <v-btn link class="mt-5 mr-4" color="info" :to="'/task/' + taskId"
-            >戻る</v-btn
-          >
-          <v-btn link class="mt-5" color="info" to="/task_list"
-            >リストに戻る</v-btn
-          >
-        </v-form>
-      </validation-observer>
+      <v-btn
+        id="updateOrDelete"
+        class="mt-5 mr-4"
+        color="primary"
+        link
+        :to="'/task_edit/' + taskId"
+      >
+        <v-icon>mdi-cached</v-icon>更新 or <v-icon>mdi-delete</v-icon>削除
+      </v-btn>
+      <v-btn id="backToList" class="mt-5" link color="info" to="/task_list"
+        >リストに戻る</v-btn
+      >
     </v-card>
-
-    <v-dialog v-model="deleteDialog" max-width="400">
-      <v-card>
-        <v-card-title>
-          <div>タスク削除</div>
-        </v-card-title>
-        <v-card-text>
-          <p>タスク名: {{ task.name }} を削除しますか？</p>
-        </v-card-text>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" @click="deleteDialog = false">戻る</v-btn>
-          <v-btn color="error" @click="deleteTask()">OK</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </div>
 </template>
 
 <script>
   import axios from "axios";
-  import {
-    extend,
-    ValidationObserver,
-    ValidationProvider,
-    localize,
-  } from "vee-validate";
-  import { max } from "vee-validate/dist/rules";
-  import ja from "vee-validate/dist/locale/ja";
 
-  localize("ja", ja);
-  extend("max", max);
+  // taskのパラメータを表示したりする
+  // 継続日数など
 
   export default {
-    components: {
-      ValidationProvider,
-      ValidationObserver,
-    },
     data: () => ({
-      taskId: 0,
       task: {},
-      taskName: "",
-      errorMessage: "",
-      deleteDialog: false,
+      taskId: 0,
     }),
     mounted() {
       if (
@@ -98,8 +42,7 @@
         this.taskId = Number(this.$route.params["id"]);
         // vuexのストアからタスクIDでタスクを取得する
         this.task = this.$store.getters.getTaskFromId(this.taskId);
-        console.log(this.task);
-        this.taskName = this.task.name;
+        // console.log(this.task);
       }
     },
     computed: {
@@ -129,7 +72,7 @@
             }
           )
           .then((response) => {
-            console.log(response);
+            // console.log(response);
             this.$router.push("/task_list");
           })
           .catch((error) => {
@@ -152,7 +95,7 @@
             },
           })
           .then((response) => {
-            console.log(response);
+            // console.log(response);
             this.$router.push("/task_list");
           })
           .catch((error) => {

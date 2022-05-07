@@ -51,7 +51,7 @@
       </v-app-bar>
       <v-navigation-drawer v-model="drawer" fixed temporary>
         <v-list nav dense>
-          <v-list-item-group v-if="isLoggedIn">
+          <v-list-item-group v-if="loggedIn">
             <v-list-item
               link
               :to="menuItem.url"
@@ -67,7 +67,7 @@
             </v-list-item>
           </v-list-item-group>
           <v-list-item-group>
-            <v-list-item v-if="!isLoggedIn" link to="signup">
+            <v-list-item v-if="!loggedIn" link to="signup">
               <v-list-item-icon>
                 <v-icon>mdi-signup</v-icon>
               </v-list-item-icon>
@@ -75,7 +75,7 @@
                 <v-list-item-title>SignUp</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item v-if="!isLoggedIn" link to="/login">
+            <v-list-item v-if="!loggedIn" link to="/login">
               <v-list-item-icon>
                 <v-icon>mdi-login</v-icon>
               </v-list-item-icon>
@@ -83,7 +83,7 @@
                 <v-list-item-title>Login</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item v-if="isLoggedIn" @click="logout_dialog = true">
+            <v-list-item v-if="loggedIn" @click="logout_dialog = true">
               <v-list-item-icon>
                 <v-icon>mdi-logout</v-icon>
               </v-list-item-icon>
@@ -134,17 +134,17 @@
       };
     },
     computed: {
-      isLoggedIn() {
-        return this.$store.state.isLoggedIn;
+      loggedIn() {
+        return this.$store.getters.getLoggedIn;
       },
     },
     methods: {
       async logout() {
-        console.log({
-          uid: decodeURIComponent(this.$cookies.get("uid")),
-          "access-token": this.$cookies.get("access-token"),
-          client: this.$cookies.get("client"),
-        });
+        // console.log({
+        //   uid: decodeURIComponent(this.$cookies.get("uid")),
+        //   "access-token": this.$cookies.get("access-token"),
+        //   client: this.$cookies.get("client"),
+        // });
         await axios
           .delete("/api/v1/auth/sign_out", {
             data: {
@@ -154,9 +154,9 @@
             },
           })
           .then((response) => {
-            console.log(response);
+            // console.log(response);
             this.logout_dialog = false;
-            this.$store.commit("setIsLoggedIn", false);
+            this.$store.commit("setLoggedIn", false);
             this.$cookies.remove("uid");
             this.$cookies.remove("access-token");
             this.$cookies.remove("client");

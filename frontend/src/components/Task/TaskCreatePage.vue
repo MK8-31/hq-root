@@ -13,6 +13,7 @@
             rules="required|max:30"
           >
             <v-text-field
+              id="taskName"
               v-model="taskName"
               label="タスク名"
               required
@@ -21,6 +22,7 @@
           </validation-provider>
 
           <v-btn
+            id="submit"
             color="primary"
             class="mr-4"
             @click="createTask"
@@ -29,7 +31,7 @@
             <v-icon>mdi-plus</v-icon>作成
           </v-btn>
           <br />
-          <v-btn link class="mt-5" color="info" to="/task_list"
+          <v-btn id="backToList" link class="mt-5" color="info" to="/task_list"
             >リストに戻る</v-btn
           >
         </v-form>
@@ -83,7 +85,7 @@
             }
           )
           .then((response) => {
-            console.log(response);
+            // console.log(response);
             this.$router.push("/task_list");
           })
           .catch((error) => {

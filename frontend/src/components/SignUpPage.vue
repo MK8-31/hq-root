@@ -111,7 +111,7 @@
     }),
     methods: {
       async submit() {
-        console.log(this.nickname, this.email, this.password);
+        // console.log(this.nickname, this.email, this.password);
         await axios
           .post("/api/v1/auth", {
             nickname: this.nickname,
@@ -120,11 +120,11 @@
           })
           .then((response) => {
             this.signup = true;
-            console.log(response);
+            // console.log(response);
             this.$cookies.set("access-token", response.headers["access-token"]);
             this.$cookies.set("client", response.headers["client"]);
             this.$cookies.set("uid", decodeURI(response.headers["uid"]));
-            this.$store.commit("setIsLoggedIn", true);
+            this.$store.commit("setLoggedIn", true);
             this.$router.push("/");
           })
           .catch((error) => {
