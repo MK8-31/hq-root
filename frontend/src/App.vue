@@ -29,21 +29,5 @@
       AppHeader,
       AppFooter,
     },
-    created() {
-      const accessToken = this.$cookies.get("access-token");
-      const client = this.$cookies.get("client");
-      const uid = this.$cookies.get("uid");
-      if (accessToken && client && uid) {
-        this.$store.commit(
-          "setRequestHeadersRequiredToMaintainLoginStatus",
-          accessToken,
-          client,
-          uid
-        );
-        this.$store.commit("setLoggedIn", true);
-      } else {
-        this.$router.push("/login");
-      }
-    },
   };
 </script>
