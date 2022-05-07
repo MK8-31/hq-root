@@ -7,9 +7,9 @@ import Vuetify from "vuetify";
 import { createLocalVue, mount } from "@vue/test-utils";
 
 jest.mock("axios", () => ({
-  post: jest.fn((_url, _body) => {
-    console.log(_url, _body);
-    if (_body.email == "test@example.com" && _body.password == "password") {
+  post: jest.fn((url, body) => {
+    // console.log(url, body);
+    if (body.email == "test@example.com" && body.password == "password") {
       return Promise.resolve({
         data: {
           data: {
@@ -235,7 +235,7 @@ describe("LoginPage", () => {
 
   //   // expect(submit.attributes().disabled).toBeDefined();
   //   wrapper.vm.$nextTick();
-  //   console.log(submit.html());
+  //   // console.log(submit.html());
   //   expect(submit.attributes().disabled).toBeDefined();
   // });
 
@@ -249,7 +249,7 @@ describe("LoginPage", () => {
     const password = wrapper.find("#password-field");
     const submit = wrapper.find("#submit");
     // const data = wrapper.vm.$data;
-    // console.log(data);
+    // // console.log(data);
     // const errorMessage = data.errorMessage;
     email.setValue("aaa@hoge.comm");
     password.setValue("password");
@@ -257,7 +257,7 @@ describe("LoginPage", () => {
     submit.trigger("click");
     await flushPromises(); // ないとエラー
     // axios のcatchをテストする
-    console.log("this.errorMessage = " + wrapper.vm.errorMessage);
+    // console.log("this.errorMessage = " + wrapper.vm.errorMessage);
     expect(wrapper.vm.errorMessage).toBe(
       "メールアドレスとパスワードの組み合わせが正しくありません。"
     );
@@ -276,7 +276,7 @@ describe("LoginPage", () => {
     submit.trigger("click");
     await flushPromises();
     // テストにCookieを組み込んでいないため、setが定義されていないとエラーが出るがOK
-    console.log("this.login: " + wrapper.vm.login);
+    // console.log("this.login: " + wrapper.vm.login);
     expect(wrapper.vm.login).toBeTruthy();
   });
 });

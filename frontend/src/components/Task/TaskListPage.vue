@@ -3,7 +3,13 @@
     <h1 class="text-center mt-5 mb-5">タスクリスト</h1>
 
     <v-card class="mx-auto" max-width="500">
-      <v-btn class="mt-5 mb-5 ml-5" color="primary" link to="/task_create">
+      <v-btn
+        id="createTask"
+        class="mt-5 mb-5 ml-5"
+        color="primary"
+        link
+        to="/task_create"
+      >
         <v-icon>mdi-plus</v-icon> タスク作成</v-btn
       >
 
@@ -86,7 +92,7 @@
             // console.log(response);
             this.tasks = response.data.data;
             this.$store.commit("setTasks", response.data.data);
-            // console.log(this.tasks);
+            // // console.log(this.tasks);
           })
           .catch((error) => {
             console.error(error);

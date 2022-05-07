@@ -40,7 +40,7 @@
           client,
           uid
         );
-        this.$store.commit("setIsLoggedIn", true);
+        this.$store.commit("setLoggedIn", true);
       } else {
         this.$router.push("/login");
       }

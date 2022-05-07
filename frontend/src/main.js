@@ -27,10 +27,10 @@ import AccountPage from "@/components/AccountPage.vue";
 import RecordPage from "@/components/RecordPage.vue";
 import ShowRecordPage from "@/components/ShowRecordPage.vue";
 import ClassChangePage from "@/components/ClassChangePage.vue";
-import TaskListPage from "@/components/TaskListPage.vue";
-import TaskPage from "@/components/TaskPage.vue";
-import TaskCreatePage from "@/components/TaskCreatePage.vue";
-import TaskEditPage from "@/components/TaskEditPage.vue";
+import TaskListPage from "@/components/Task/TaskListPage.vue";
+import TaskPage from "@/components/Task/TaskPage.vue";
+import TaskCreatePage from "@/components/Task/TaskCreatePage.vue";
+import TaskEditPage from "@/components/Task/TaskEditPage.vue";
 
 Axios.defaults.baseURL =
   process.env.NODE_ENV === "production"
@@ -40,11 +40,11 @@ Axios.defaults.baseURL =
 Vue.use(VueRouter);
 
 const routes = [
-  { path: "/", component: HomePage },
-  { path: "/login", component: LoginPage },
+  { path: "/", component: HomePage, meta: { isPublic: true } },
+  { path: "/login", component: LoginPage, meta: { isPublic: true } },
   { path: "/logout", component: LogoutPage },
-  { path: "/signup", component: SignUpPage },
-  { path: "/help", component: HelpPage },
+  { path: "/signup", component: SignUpPage, meta: { isPublic: true } },
+  { path: "/help", component: HelpPage, meta: { isPublic: true } },
   { path: "/account", component: AccountPage },
   { path: "/record", component: RecordPage },
   { path: "/show_record", component: ShowRecordPage },
@@ -58,6 +58,18 @@ const routes = [
 const router = new VueRouter({
   mode: "history",
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  // isPublic でない場合(=認証が必要な場合)、かつ、ログインしていない場合
+  if (
+    to.matched.some((record) => !record.meta.isPublic) &&
+    !store.getters.getLoggedIn
+  ) {
+    next({ path: "/login", query: { redirect: to.fullPath } });
+  } else {
+    next();
+  }
 });
 
 Vue.config.productionTip = false;

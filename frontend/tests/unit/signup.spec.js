@@ -8,7 +8,7 @@ import { createLocalVue, mount } from "@vue/test-utils";
 
 jest.mock("axios", () => ({
   post: jest.fn((_url, _body) => {
-    console.log(_url, _body);
+    // console.log(_url, _body);
     if (
       _body.nickname == "test" &&
       _body.email == "test@example.com" &&
@@ -287,7 +287,7 @@ describe("SignUpPage", () => {
 
   //   //   // expect(submit.attributes().disabled).toBeDefined();
   //   //   wrapper.vm.$nextTick();
-  //   //   console.log(submit.html());
+  //   //   // console.log(submit.html());
   //   //   expect(submit.attributes().disabled).toBeDefined();
   //   // });
 
@@ -303,7 +303,7 @@ describe("SignUpPage", () => {
     const password = wrapper.find("#password-field");
     const submit = wrapper.find("#submit");
     // const data = wrapper.vm.$data;
-    // console.log(data);
+    // // console.log(data);
     // const errorMessage = data.errorMessage;
     nickname.setValue("a");
     email.setValue("a@a.com");
@@ -312,7 +312,7 @@ describe("SignUpPage", () => {
     submit.trigger("click");
     await flushPromises(); // ないとエラー
 
-    console.log("this.errorMessage = " + wrapper.vm.errorMessage);
+    // console.log("this.errorMessage = " + wrapper.vm.errorMessage);
     expect(wrapper.vm.errorMessages).toEqual(
       expect.arrayContaining(["メールアドレスは既に使用されています。"])
     );
@@ -333,7 +333,7 @@ describe("SignUpPage", () => {
     submit.trigger("click");
     await flushPromises();
     // テストにCookieを組み込んでいないため、setが定義されていないとエラーが出るがOK
-    console.log("this.signup: " + wrapper.vm.signup);
+    // console.log("this.signup: " + wrapper.vm.signup);
     expect(wrapper.vm.signup).toBeTruthy();
   });
 });

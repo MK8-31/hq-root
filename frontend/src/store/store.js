@@ -8,7 +8,7 @@ export default new Vuex.Store({
     /**
      * ログインをしているかどうか
      */
-    isLoggedIn: false,
+    loggedIn: false,
     /**
      * ユーザのすべてのタスクを格納
      */
@@ -32,6 +32,9 @@ export default new Vuex.Store({
     },
   },
   getters: {
+    getLoggedIn(state) {
+      return state.loggedIn;
+    },
     /**
      * tasks配列からidを使用して目的のタスクを見つける関数
      * @param {Object} state state
@@ -42,7 +45,7 @@ export default new Vuex.Store({
       let targetTask = {};
       state.tasks.forEach((task) => {
         if (task.id === task_id) {
-          console.log(true);
+          // console.log(true);
           targetTask = task;
         }
       });
@@ -59,8 +62,8 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    setIsLoggedIn(state, value) {
-      state.isLoggedIn = value;
+    setLoggedIn(state, value) {
+      state.loggedIn = value;
     },
     setTasks(state, value) {
       state.tasks = value;
