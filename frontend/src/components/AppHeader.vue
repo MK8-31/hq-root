@@ -153,7 +153,7 @@
               client: this.$cookies.get("client"),
             },
           })
-          .then((response) => {
+          .then(() => {
             // console.log(response);
             this.logout_dialog = false;
             this.$store.commit("setLoggedIn", false);

@@ -137,7 +137,7 @@
               },
             }
           )
-          .then((response) => {
+          .then(() => {
             // console.log(response);
             this.$router.push("/task_list");
           })
@@ -160,7 +160,7 @@
               uid: this.$cookies.get("uid"),
             },
           })
-          .then((response) => {
+          .then(() => {
             // console.log(response);
             this.$router.push("/task_list");
           })

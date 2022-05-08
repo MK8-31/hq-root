@@ -7,7 +7,7 @@ import LogoutPage from "@/components/LogoutPage.vue";
 import SignUpPage from "@/components/SignUpPage.vue";
 import HelpPage from "@/components/HelpPage.vue";
 import AccountPage from "@/components/AccountPage.vue";
-import RecordPage from "@/components/RecordPage.vue";
+import RecordPage from "@/components/Record/RecordPage.vue";
 import ShowRecordPage from "@/components/ShowRecordPage.vue";
 import ClassChangePage from "@/components/ClassChangePage.vue";
 import TaskListPage from "@/components/Task/TaskListPage.vue";

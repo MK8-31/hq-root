@@ -4,6 +4,7 @@ import vuetify from "./plugins/vuetify";
 import Axios from "axios";
 import VueCookies from "vue-cookies";
 import store from "./store/store";
+// この書き方じゃないとエラー
 import * as VeeValidate from "vee-validate";
 import ja from "vee-validate/dist/locale/ja";
 import { localize } from "vee-validate";
@@ -46,8 +47,6 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
-
-Vue.config.productionTip = false;
 
 new Vue({
   vuetify,

@@ -84,7 +84,7 @@
               },
             }
           )
-          .then((response) => {
+          .then(() => {
             // console.log(response);
             this.$router.push("/task_list");
           })
