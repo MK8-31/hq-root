@@ -27,22 +27,50 @@
 
                   <span
                     :class="[
-                      $vuetify.breakpoint.smAndDown ? 'display-3' : 'display-4',
+                      $vuetify.breakpoint.smAndDown ? 'display-2' : 'display-4',
                     ]"
                     class="font-weight-black"
                   >
                     習慣化クエスト
                   </span>
                 </v-col>
-
-                <v-btn
-                  class="align-self-end"
-                  fab
-                  outlined
-                  @click="$vuetify.goTo('#about-me')"
-                >
-                  <v-icon>mdi-chevron-double-down</v-icon>
-                </v-btn>
+                <v-col class="text-center" cols="12">
+                  <v-btn
+                    v-if="!loggedIn"
+                    class="align-self-end"
+                    fab
+                    outlined
+                    @click="$vuetify.goTo('#about-me')"
+                  >
+                    <v-icon>mdi-chevron-double-down</v-icon>
+                  </v-btn>
+                </v-col>
+                <v-col class="text-right" cols="6">
+                  <v-btn
+                    v-if="loggedIn"
+                    color="white"
+                    class="black--text mt-5 mr-4 mr-md-5"
+                    to="/record"
+                    large
+                  >
+                    <span class="font-weight-bold">
+                      記録する
+                    </span>
+                  </v-btn>
+                </v-col>
+                <v-col class="text-left" cols="6">
+                  <v-btn
+                    v-if="loggedIn"
+                    class="black--text mt-5"
+                    color="white"
+                    to="/task_list"
+                    large
+                  >
+                    <span class="font-weight-bold">
+                      Task
+                    </span>
+                  </v-btn>
+                </v-col>
               </v-row>
             </v-container>
           </v-theme-provider>
@@ -71,20 +99,50 @@
           タスクを設定し、それを毎日こなすことで習慣化することができ、それを繰り返すうちに気がつけば最強に...
         </v-responsive>
 
-        <v-avatar class="elevation-12 mb-12" size="128">
-          <v-img src="@/assets/img/worldmap.jpg"></v-img>
+        <v-avatar class="elevation-12 mb-12" size="120">
+          <v-img src="@/assets/img/sword.jpeg"></v-img>
         </v-avatar>
 
         <div></div>
 
-        <v-btn color="grey" to="/signup" outlined large>
+        <v-btn
+          v-if="!loggedIn"
+          class="mr-4 mr-md-5"
+          color="grey"
+          to="/signup"
+          outlined
+          large
+        >
           <span class="grey--text text--darken-1 font-weight-bold">
-            登録して始める
+            登録する
           </span>
         </v-btn>
-        <v-btn color="grey" to="/login" outlined large>
+        <v-btn v-if="!loggedIn" color="grey" to="/login" outlined large>
           <span class="grey--text text--darken-1 font-weight-bold">
             ログイン
+          </span>
+        </v-btn>
+
+        <v-btn
+          v-if="loggedIn"
+          color="white"
+          class="black--text mr-4 mr-md-5"
+          to="/record"
+          large
+        >
+          <span class="font-weight-bold">
+            記録する
+          </span>
+        </v-btn>
+        <v-btn
+          v-if="loggedIn"
+          class="black--text"
+          color="white"
+          to="/task_list"
+          large
+        >
+          <span class="font-weight-bold">
+            Task
           </span>
         </v-btn>
       </v-container>
@@ -267,6 +325,11 @@
           ["∞", "probability"],
         ],
       };
+    },
+    computed: {
+      loggedIn() {
+        return this.$store.getters.getLoggedIn;
+      },
     },
   };
 </script>
