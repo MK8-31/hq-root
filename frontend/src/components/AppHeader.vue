@@ -3,7 +3,9 @@
     <header>
       <v-app-bar app dark>
         <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-        <v-toolbar-title>HabituationQuest</v-toolbar-title>
+        <v-toolbar-title
+          ><v-btn to="/" text active-class="">HabituationQuest</v-btn>
+        </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-tabs right>
           <v-tab link to="/record">
@@ -16,21 +18,10 @@
               <v-icon>mdi-book-open-page-variant-outline</v-icon>
             </v-btn>
           </v-tab>
-          <v-tab link to="/show_record">
-            <div class="text-center">
-              <v-menu offset-y>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn icon class="right" dark v-bind="attrs" v-on="on">
-                    <v-icon>mdi-information</v-icon>
-                  </v-btn>
-                </template>
-                <v-list>
-                  <v-list-item link v-for="(item, index) in items" :key="index">
-                    <v-list-item-title>{{ item.title }}</v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
-            </div>
+          <v-tab link to="/task_list">
+            <v-btn icon class="right">
+              <v-icon>mdi-clipboard-outline</v-icon>
+            </v-btn>
           </v-tab>
           <v-tab link to="/help">
             <v-btn icon class="right">

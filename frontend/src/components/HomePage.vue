@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <div>
     <section id="hero">
       <v-row no-gutters>
         <v-img
@@ -31,7 +31,7 @@
                     ]"
                     class="font-weight-black"
                   >
-                    VUETIFY
+                    習慣化クエスト
                   </span>
                 </v-col>
 
@@ -54,7 +54,7 @@
       <div class="py-12"></div>
 
       <v-container class="text-center">
-        <h2 class="display-2 font-weight-bold mb-3">ABOUT ME</h2>
+        <h2 class="display-2 font-weight-bold mb-3">ABOUT</h2>
 
         <v-responsive class="mx-auto mb-8" width="56">
           <v-divider class="mb-1"></v-divider>
@@ -66,24 +66,25 @@
           class="mx-auto title font-weight-light mb-8"
           max-width="720"
         >
-          Vuetify is the #1 component library for Vue.js and has been in active
-          development since 2016. The goal of the project is to provide users
-          with everything that is needed to build rich and engaging web
-          applications using the Material Design specification. It accomplishes
-          that with a consistent update cycle, Long-term Support (LTS) for
-          previous versions, responsive community engagement, a vast ecosystem
-          of resources and a dedication to quality components.
+          習慣と複利の力で最強に！<br />
+          アニメやラノベ主人公のように強くなってみませんか？このアプリならそれが可能です！！<br />
+          タスクを設定し、それを毎日こなすことで習慣化することができ、それを繰り返すうちに気がつけば最強に...
         </v-responsive>
 
         <v-avatar class="elevation-12 mb-12" size="128">
-          <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
+          <v-img src="@/assets/img/worldmap.jpg"></v-img>
         </v-avatar>
 
         <div></div>
 
-        <v-btn color="grey" href="https://vuetifyjs.com" outlined large>
+        <v-btn color="grey" to="/signup" outlined large>
           <span class="grey--text text--darken-1 font-weight-bold">
-            Vuetify Documentation
+            登録して始める
+          </span>
+        </v-btn>
+        <v-btn color="grey" to="/login" outlined large>
+          <span class="grey--text text--darken-1 font-weight-bold">
+            ログイン
           </span>
         </v-btn>
       </v-container>
@@ -95,7 +96,7 @@
       <div class="py-12"></div>
 
       <v-container class="text-center">
-        <h2 class="display-2 font-weight-bold mb-3">VUETIFY FEATURES</h2>
+        <h2 class="display-2 font-weight-bold mb-3">FEATURES</h2>
 
         <v-responsive class="mx-auto mb-12" width="56">
           <v-divider class="mb-1"></v-divider>
@@ -163,12 +164,12 @@
       </v-parallax>
     </section>
 
-    <section id="blog">
+    <section id="howToUse">
       <div class="py-12"></div>
 
       <v-container>
         <h2 class="display-2 font-weight-bold mb-3 text-uppercase text-center">
-          Blog
+          How to Use
         </h2>
 
         <v-responsive class="mx-auto mb-12" width="56">
@@ -179,7 +180,7 @@
 
         <v-row>
           <v-col
-            v-for="({ src, text, title }, i) in articles"
+            v-for="({ src, text, title, to }, i) in howToUse"
             :key="i"
             cols="12"
             md="4"
@@ -198,8 +199,8 @@
 
             <div class="title font-weight-light mb-5" v-text="text"></div>
 
-            <v-btn class="ml-n4 font-weight-black" text>
-              Continue Reading
+            <v-btn class="ml-n4 font-weight-black" text :to="to">
+              Continue
             </v-btn>
           </v-col>
         </v-row>
@@ -207,106 +208,63 @@
 
       <div class="py-12"></div>
     </section>
-
-    <v-sheet id="contact" color="#333333" dark tag="section" tile>
-      <div class="py-12"></div>
-
-      <v-container>
-        <h2 class="display-2 font-weight-bold mb-3 text-uppercase text-center">
-          Contact Me
-        </h2>
-
-        <v-responsive class="mx-auto mb-12" width="56">
-          <v-divider class="mb-1"></v-divider>
-
-          <v-divider></v-divider>
-        </v-responsive>
-
-        <v-theme-provider light>
-          <v-row>
-            <v-col cols="12">
-              <v-text-field flat label="Name*" solo></v-text-field>
-            </v-col>
-
-            <v-col cols="12">
-              <v-text-field flat label="Email*" solo></v-text-field>
-            </v-col>
-
-            <v-col cols="12">
-              <v-text-field flat label="Subject*" solo></v-text-field>
-            </v-col>
-
-            <v-col cols="12">
-              <v-textarea flat label="Message*" solo></v-textarea>
-            </v-col>
-
-            <v-col class="mx-auto" cols="auto">
-              <v-btn color="accent" x-large>
-                Submit
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-theme-provider>
-      </v-container>
-
-      <div class="py-12"></div>
-    </v-sheet>
-  </v-content>
+  </div>
 </template>
 
 <script>
   export default {
-    el: "#app",
     data() {
       return {
-        articles: [
+        howToUse: [
           {
             src:
               "https://images.unsplash.com/photo-1423784346385-c1d4dac9893a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
-            title: "Mobile first & Responsive",
+            title: "タスクを登録",
             text:
-              "Phasellus lorem enim, luctus ut velit eget, convallis egestas eros. Sed ornare ligula eget tortor tempor, quis porta tellus dictum.",
+              "習慣化したいことをタスクとして登録します。例えば、腹筋10回のように具体的なタスクを登録します。",
+            to: "/task_list",
           },
           {
             src:
               "https://images.unsplash.com/photo-1475938476802-32a7e851dad1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
-            title: "Think outside the box",
-            text:
-              "Nam ut leo ipsum. Maecenas pretium aliquam feugiat. Aenean vel tempor est, vitae tincidunt risus. Sed sodales vestibulum nibh.",
+            title: "記録",
+            text: "タスクを達成したら記録します。ワンタップでOK。",
+            to: "/record",
           },
           {
             src:
               "https://images.unsplash.com/photo-1416339442236-8ceb164046f8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1892&q=80",
-            title: "Small changes, big difference",
+            title: "経験値・レベル確認",
             text:
-              "Vestibulum in dictum velit, in rhoncus nibh. Maecenas neque libero, interdum a dignissim in, aliquet vitae lectus. Phasellus lorem enim, luctus ut velit eget.",
+              "記録をすると経験値がたまり、一定以上貯まるとレベルアップします。自分の努力を見て成長を感じることで挫折を防ぐことができます。",
+            to: "/show_record",
           },
         ],
         features: [
           {
-            icon: "mdi-account-group-outline",
-            title: "Vibrant Community",
+            icon: "mdi-clipboard-minus-outline",
+            title: "簡単な記録",
             text:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto cupiditate sint possimus quidem atque harum excepturi nemo velit tempora! Enim inventore fuga, qui ipsum eveniet facilis obcaecati corrupti asperiores nam",
+              "ワンタップで記録するができます。簡単に記録することができるので、記録の継続は簡単です。",
           },
           {
-            icon: "mdi-update",
-            title: "Frequent Updates",
+            icon: "mdi-arrow-top-right-thick",
+            title: "経験値・レベル",
             text:
-              "Sed ut elementum justo. Suspendisse non justo enim. Vestibulum cursus mauris dui, a luctus ex blandit. Lorem ipsum dolor sit amet consectetur adipisicing elit. qui ipsum eveniet facilis obcaecati corrupti consectetur adipisicing elit.",
+              "経験値とレベルシステムによりあなたの努力や継続を可視化します。",
           },
           {
-            icon: "mdi-shield-outline",
-            title: "Long-term Support",
+            icon: "mdi-human-handsup",
+            title: "楽しく習慣化",
             text:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto cupiditate sint possimus quidem atque harum excepturi nemo velit tempora! Enim inventore fuga, qui ipsum eveniet facilis obcaecati corrupti asperiores nam",
+              "毎日の努力が見える化されるので楽しく習慣化に取り組むことができます。楽しんでいるうちにいずれ最強。。。",
           },
         ],
         stats: [
-          ["24k", "Github Stars"],
-          ["330+", "Releases"],
-          ["1m", "Downloads/mo"],
-          ["5m", "Total Downloads"],
+          ["∞", "tasks"],
+          ["99", "maxLv"],
+          ["3", "Job"],
+          ["∞", "probability"],
         ],
       };
     },
