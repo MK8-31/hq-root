@@ -8,6 +8,11 @@
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-tabs right>
+          <v-tab link to="/">
+            <v-btn icon class="right">
+              <v-icon>mdi-home</v-icon>
+            </v-btn>
+          </v-tab>
           <v-tab link to="/record">
             <v-btn icon class="right">
               <v-icon>mdi-lead-pencil</v-icon>
@@ -42,12 +47,23 @@
       </v-app-bar>
       <v-navigation-drawer v-model="drawer" fixed temporary>
         <v-list nav dense>
+          <v-list-item-group>
+            <v-list-item id="home" link to="/">
+              <v-list-item-icon>
+                <v-icon>mdi-home</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>Home</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-group>
           <v-list-item-group v-if="loggedIn">
             <v-list-item
               link
               :to="menuItem.url"
               v-for="(menuItem, index) in menuItems"
               :key="index"
+              :id="menuItem.name"
             >
               <v-list-item-icon>
                 <v-icon>{{ menuItem.icon }}</v-icon>
@@ -58,15 +74,7 @@
             </v-list-item>
           </v-list-item-group>
           <v-list-item-group>
-            <v-list-item link to="/">
-              <v-list-item-icon>
-                <v-icon>mdi-home</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>Home</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item v-if="!loggedIn" link to="signup">
+            <v-list-item id="signup" v-if="!loggedIn" link to="signup">
               <v-list-item-icon>
                 <v-icon>mdi-signup</v-icon>
               </v-list-item-icon>
@@ -74,7 +82,7 @@
                 <v-list-item-title>SignUp</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item v-if="!loggedIn" link to="/login">
+            <v-list-item id="login" v-if="!loggedIn" link to="/login">
               <v-list-item-icon>
                 <v-icon>mdi-login</v-icon>
               </v-list-item-icon>
@@ -123,12 +131,6 @@
         drawer: false,
         settings: false,
         menuItems: constants.menuItems,
-        items: [
-          { title: "Click Me" },
-          { title: "Click Me" },
-          { title: "Click Me" },
-          { title: "Click Me 2" },
-        ],
         logout_dialog: false,
       };
     },
