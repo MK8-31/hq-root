@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class User < ActiveRecord::Base
-  has_many :records
-  has_many :tasks
+  has_many :records, dependent: :destroy
+  has_many :tasks, dependent: :destroy
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

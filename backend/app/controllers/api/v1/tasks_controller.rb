@@ -3,7 +3,7 @@ class Api::V1::TasksController < ApplicationController
   before_action :set_task, only: %i[show update destroy]
 
   def index
-    tasks = Task.all
+    tasks = current_api_v1_user.tasks.all
     render json: { status: 'SUCCESS', message: 'Loaded tasks', data: tasks }
   end
 
