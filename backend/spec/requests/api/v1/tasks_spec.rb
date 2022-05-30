@@ -4,9 +4,11 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
   before do
     @current_user = create(:user)
     10.times { |n| @current_user.tasks.create(name: "task-#{n}") }
+    other_user = create(:user2)
+    10.times { |n| other_user.tasks.create(name: "task-#{n}") }
   end
 
-  describe 'GET /create' do
+  describe 'tasks controller test' do
     it 'ログイン状態ですべてのタスクを取得する' do
       # ログイン状態であることを証明するために必要なリクエストヘッダーの要素を取得
       # access-token, client, uid
@@ -18,6 +20,23 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
       expect(response.status).to eq(200)
 
       expect(json['data'].length).to eq(10)
+    end
+
+    it '取得したタスクが自分のタスクである' do
+      # ログイン状態であることを証明するために必要なリクエストヘッダーの要素を取得
+      # access-token, client, uid
+      auth_token = login(@current_user)
+
+      get '/api/v1/tasks', headers: auth_token
+      json = JSON.parse(response.body)
+
+      expect(response.status).to eq(200)
+
+      expect(json['data'].length).to eq(10)
+
+      json['data'].length.times do |i|
+        expect(json['data'][i]['user_id']).to eq(@current_user.id)
+      end
     end
 
     it 'ログインしていない状態ですべてのタスクを取得するとエラー' do

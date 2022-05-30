@@ -6,7 +6,11 @@ class Api::V1::TaskRecordsController < ApplicationController
     latest_task_record = @task.task_records.order(created_at: :desc).limit(1)[0]
 
     if latest_task_record && latest_task_record.created_at.today?
-      render json: { status: 'ERROR', message: 'すでに記録済みです' }
+      render json: {
+               status: 'ERROR',
+               message: 'すでに記録済みです',
+             },
+             status: 401
       return
     end
 
