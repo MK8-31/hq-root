@@ -13,6 +13,9 @@
 # URL
 URL： http://habituation-quest.tk
 
+# モデル図
+![習慣化アプリモデル図 drawio](https://user-images.githubusercontent.com/68171652/173063953-25ad35c4-e84d-49c4-832e-629908304943.png)
+
 # 使用技術
 * Ruby
 * rails
@@ -27,6 +30,7 @@ URL： http://habituation-quest.tk
  
 # DEMO
  
+ ![スクリーンショット 2022-06-10 21 34 08](https://user-images.githubusercontent.com/68171652/173065184-416a7ae5-1197-4fd3-973c-dbdf608707e0.png)
 現在準備中
  
 # 制作経緯
@@ -56,6 +60,14 @@ URL： http://habituation-quest.tk
 
  
 # Usage
+
+
+* 習慣化したいタスクを登録
+* そのタスクをクリアしたらクリックまたはタップで記録
+* 記録による経験値獲得、レベルアップを確認して自分の成長を実感
+* それを毎日繰り返して六週間継続し、習慣化を達成
+* 習慣化を増やして自分を成長させよう！！
+
  
 現在準備中
  
