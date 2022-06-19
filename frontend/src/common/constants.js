@@ -16,19 +16,9 @@ export default {
       url: "/show_record",
     },
     {
-      icon: "mdi-account-switch",
-      name: "転職",
-      url: "/class_change",
-    },
-    {
       icon: "mdi-account",
       name: "Account",
       url: "/account",
-    },
-    {
-      icon: "mdi-help",
-      name: "Help",
-      url: "/help",
     },
   ],
 };

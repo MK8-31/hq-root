@@ -28,16 +28,16 @@
               <v-icon>mdi-clipboard-outline</v-icon>
             </v-btn>
           </v-tab>
-          <v-tab link to="/help">
+          <!-- <v-tab link to="/help">
             <v-btn icon class="right">
               <v-icon>mdi-help</v-icon>
             </v-btn>
-          </v-tab>
-          <v-tab link to="/class_change">
+          </v-tab> -->
+          <!-- <v-tab link to="/class_change">
             <v-btn icon class="right">
               <v-icon>mdi-account-switch</v-icon>
             </v-btn>
-          </v-tab>
+          </v-tab> -->
           <v-tab link to="/account">
             <v-btn icon class="right">
               <v-icon>mdi-account</v-icon>

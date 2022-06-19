@@ -4,8 +4,6 @@
 
     <v-card class="mx-auto pb-5 mb-5" max-width="1200">
       <v-row>
-        <!-- 右の隙間の原因2 -->
-
         <v-col
           v-for="(task, i) in displayList"
           :key="i"
@@ -18,19 +16,12 @@
           <v-card
             hover
             :loading="loading[String(i)]"
-            @click="
-              complete[String(i)]
-                ? ((cancel.dialog = true),
-                  (cancel.taskId = task.id),
-                  (cancel.index = i))
-                : record(i, task.id)
-            "
+            @click="complete[String(i)] ? '' : record(i, task.id)"
             outlined
             min-width="240"
             min-height="240"
             max-width="500"
             height="100%"
-            class="d-flex flex-column"
           >
             <template slot="progress">
               <v-progress-linear
@@ -45,7 +36,6 @@
             <p v-if="!complete[String(i)]" class="text-center">
               Click me
             </p>
-            <!-- 右の隙間の原因１ -->
             <v-icon
               v-if="complete[String(i)]"
               x-large
@@ -63,22 +53,40 @@
         @input="pageChange"
       ></v-pagination>
     </v-card>
-    <v-dialog v-model="cancel.dialog" max-width="400">
+    <v-dialog v-model="showResult" max-width="400">
       <v-card>
-        <v-alert id="error-message" v-if="errorMessage" type="error">{{
-          errorMessage
-        }}</v-alert>
         <v-card-title>
-          <div>記録取り消し</div>
+          <div>経験値獲得</div>
         </v-card-title>
+        <v-card-text v-if="isLevelUp" class="text-center mt-5 mb-5">
+          <h1 class="primary--text">Level Up!</h1>
+        </v-card-text>
+        <v-card-text class="text-center mb-5">
+          <v-progress-circular
+            :rotate="-90"
+            :size="100"
+            :width="15"
+            :value="lv"
+            color="primary"
+            class="justify-center"
+          >
+            Lv: {{ lv }}
+          </v-progress-circular>
+        </v-card-text>
         <v-card-text>
-          <p>記録を取り消しますか？</p>
+          <v-progress-linear
+            color="light-blue"
+            height="20"
+            :value="rate"
+            striped
+          >
+            Exp: {{ nowLvExp }} / {{ nowLvMaxExp }}
+          </v-progress-linear>
         </v-card-text>
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="cancel.dialog = false">閉じる</v-btn>
-          <v-btn color="error" @click="cancelRecord()">OK</v-btn>
+          <v-btn @click="showResult = false">閉じる</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -132,11 +140,13 @@
         "4": false,
         "5": false,
       },
-      cancel: {
-        dialog: false,
-        taskId: 0,
-        index: 0,
-      },
+      showResult: false,
+      lv: 1,
+      exp: 0,
+      rate: 0,
+      nowLvExp: 0,
+      nowLvMaxExp: 0,
+      isLevelUp: false,
     }),
     async mounted() {
       await this.getTasks();
@@ -179,6 +189,9 @@
         );
         this.isDisplayTasksCompeted();
       },
+      /**
+       * タスク達成を記録する関数
+       */
       async record(i, taskId) {
         this.loading[String(i)] = true;
         this.nowLoading = true;
@@ -200,7 +213,28 @@
             }
           )
           .then((response) => {
+            this.displayList[i].last_time = moment().format("YYYY-MM-DD");
             console.log(response);
+            // 今のレベル
+            const lv = response.data.data.level;
+            // 累計経験値
+            const exp = response.data.data.exp;
+            // レベルアップに必要な経験値
+            this.nowLvMaxExp = Math.round(12 * 1.5 ** (lv - 1));
+            // 今のレベルになってからの経験値
+            this.nowLvExp =
+              exp - Math.round(12 * ((1 - 1.5 ** (lv - 1)) / (1 - 1.5)));
+            this.isLevelUp = response.data.is_level_up;
+
+            this.showResult = true;
+            setTimeout(() => {
+              this.lv = lv;
+              this.exp = exp;
+              this.rate = (this.nowLvExp / this.nowLvMaxExp) * 100;
+            }, 500);
+            // setTimeout(() => {
+            //   this.showResult = false;
+            // }, 3000);
 
             this.complete[String(i)] = true;
           })
@@ -212,38 +246,6 @@
           });
 
         this.loading[String(i)] = false;
-        this.nowLoading = false;
-      },
-      async cancelRecord() {
-        this.loading[String(this.cancel.index)] = true;
-        this.nowLoading = true;
-
-        console.log(this.cancel.taskId, this.cancel.index);
-
-        await axios
-          .delete(`/api/v1/task_records/${this.cancel.taskId}`, {
-            headers: {
-              "access-token": this.$cookies.get("access-token"),
-              client: this.$cookies.get("client"),
-              uid: this.$cookies.get("uid"),
-            },
-          })
-          .then((response) => {
-            console.log(response);
-            this.cancel.dialog = false;
-
-            this.complete[String(this.cancel.index)] = false;
-          })
-          .catch((error) => {
-            console.error(error);
-            console.error(error.response);
-            this.errorMessage = error.response.data.errors
-              ? error.response.data.errors[0]
-              : error.response.data.message;
-            console.error(this.errorMessage);
-          });
-
-        this.loading[String(this.cancel.index)] = false;
         this.nowLoading = false;
       },
       /**
@@ -267,3 +269,8 @@
     },
   };
 </script>
+<style>
+  .v-card--hover {
+    margin: 0;
+  }
+</style>

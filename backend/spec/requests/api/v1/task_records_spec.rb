@@ -47,71 +47,71 @@ RSpec.describe 'Api::V1::TaskRecords', type: :request do
     end
   end
 
-  describe 'destroy' do
-    it 'ログイン状態でタスクの記録を削除する' do
-      auth_token = login(@current_user)
-      params = { task: { id: @task1.id } }
+  # describe 'destroy' do
+  #   it 'ログイン状態でタスクの記録を削除する' do
+  #     auth_token = login(@current_user)
+  #     params = { task: { id: @task1.id } }
 
-      expect {
-        post '/api/v1/task_records', params: params, headers: auth_token
-      }.to change(TaskRecord, :count).by(+1)
+  #     expect {
+  #       post '/api/v1/task_records', params: params, headers: auth_token
+  #     }.to change(TaskRecord, :count).by(+1)
 
-      task_record =
-        @task1.task_records.where(created_at: Time.zone.now.all_day)[0]
+  #     task_record =
+  #       @task1.task_records.where(created_at: Time.zone.now.all_day)[0]
 
-      expect {
-        delete "/api/v1/task_records/#{@task1.id}", headers: auth_token
-      }.to change(TaskRecord, :count).by(-1)
+  #     expect {
+  #       delete "/api/v1/task_records/#{@task1.id}", headers: auth_token
+  #     }.to change(TaskRecord, :count).by(-1)
 
-      json = JSON.parse(response.body)
-      data = json['data']
+  #     json = JSON.parse(response.body)
+  #     data = json['data']
 
-      expect(response.status).to eq(200)
+  #     expect(response.status).to eq(200)
 
-      expect(data['id']).to eq(task_record.id)
-    end
+  #     expect(data['id']).to eq(task_record.id)
+  #   end
 
-    it 'ログイン状態でかつ、今日のタスクの記録がない状態でタスクの記録を削除する' do
-      auth_token = login(@current_user)
-      params = { task: { id: @task1.id } }
+  #   it 'ログイン状態でかつ、今日のタスクの記録がない状態でタスクの記録を削除する' do
+  #     auth_token = login(@current_user)
+  #     params = { task: { id: @task1.id } }
 
-      expect {
-        delete "/api/v1/task_records/#{@task1.id}", headers: auth_token
-      }.to change(TaskRecord, :count).by(0)
+  #     expect {
+  #       delete "/api/v1/task_records/#{@task1.id}", headers: auth_token
+  #     }.to change(TaskRecord, :count).by(0)
 
-      json = JSON.parse(response.body)
-      message = json['message']
+  #     json = JSON.parse(response.body)
+  #     message = json['message']
 
-      expect(response.status).not_to eq(200)
+  #     expect(response.status).not_to eq(200)
 
-      expect(message).to eq('今日記録したタスクレコードはありません。')
-    end
+  #     expect(message).to eq('今日記録したタスクレコードはありません。')
+  #   end
 
-    it 'ログイン状態でタスクの記録を削除するとタスクのlast_timeが前回記録した時間になる' do
-      auth_token = login(@current_user)
-      yesterday_time = Date.yesterday
-      @task1.task_records.create(created_at: yesterday_time)
-      params = { task: { id: @task1.id } }
+  #   it 'ログイン状態でタスクの記録を削除するとタスクのlast_timeが前回記録した時間になる' do
+  #     auth_token = login(@current_user)
+  #     yesterday_time = Date.yesterday
+  #     @task1.task_records.create(created_at: yesterday_time)
+  #     params = { task: { id: @task1.id } }
 
-      expect {
-        post '/api/v1/task_records', params: params, headers: auth_token
-      }.to change(TaskRecord, :count).by(+1)
+  #     expect {
+  #       post '/api/v1/task_records', params: params, headers: auth_token
+  #     }.to change(TaskRecord, :count).by(+1)
 
-      json = JSON.parse(response.body)
-      data = json['data']
+  #     json = JSON.parse(response.body)
+  #     data = json['data']
 
-      expect(data['last_time']).not_to eq(yesterday_time)
+  #     expect(data['last_time']).not_to eq(yesterday_time)
 
-      expect {
-        delete "/api/v1/task_records/#{@task1.id}", headers: auth_token
-      }.to change(TaskRecord, :count).by(-1)
+  #     expect {
+  #       delete "/api/v1/task_records/#{@task1.id}", headers: auth_token
+  #     }.to change(TaskRecord, :count).by(-1)
 
-      json = JSON.parse(response.body)
-      data = json['data']
+  #     json = JSON.parse(response.body)
+  #     data = json['data']
 
-      expect(response.status).to eq(200)
+  #     expect(response.status).to eq(200)
 
-      expect(@task1.reload.last_time).to eq(yesterday_time)
-    end
-  end
+  #     expect(@task1.reload.last_time).to eq(yesterday_time)
+  #   end
+  # end
 end
