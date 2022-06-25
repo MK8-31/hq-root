@@ -11,7 +11,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
       # localhost:3000 からのアクセスを許容する
       origins %w[http://localhost:3000]
     else
-      origins %w[http://habituation-quest.tk]
+      origins 'http://habituation-quest.tk', 'https://habituation-quest.tk'
     end
 
     resource '*',

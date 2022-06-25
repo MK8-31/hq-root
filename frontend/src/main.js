@@ -19,7 +19,7 @@ Vue.use(VueCookies);
 // 開発環境と本番環境で接続先を変更する
 Axios.defaults.baseURL =
   process.env.NODE_ENV === "production"
-    ? "http://backend.habituation-quest.tk"
+    ? "https://backend.habituation-quest.tk"
     : "http://localhost:3030";
 
 router.beforeEach((to, from, next) => {
