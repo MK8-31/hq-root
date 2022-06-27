@@ -6,6 +6,12 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+warrior = Job.create!(name: 'Warrior')
+
+mage = Job.create!(name: 'Mage')
+
+priest = Job.create!(name: 'Priest')
+
 User.create!(
   nickname: 'example',
   email: 'example@example.com',
@@ -25,17 +31,13 @@ User.create!(
   )
 end
 
-warrior = Job.create!(name: 'Warrior')
-
-mage = Job.create!(name: 'Mage')
-
-priest = Job.create!(name: 'Priest')
+User.create!(nickname: 'test', email: 'test@example.com', password: 'password')
 
 users = User.order(:created_at)
 
-users.each { |user| user.records.create!(job_id: warrior.id) }
-
 users.each do |user|
-  task_name = Faker::Lorem.sentence(word_count: 3)
-  user.tasks.create!(name: task_name)
+  8.times do
+    task_name = Faker::Lorem.sentence(word_count: 3)
+    user.tasks.create!(name: task_name)
+  end
 end

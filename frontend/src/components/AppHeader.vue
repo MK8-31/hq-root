@@ -141,11 +141,6 @@
     },
     methods: {
       async logout() {
-        // console.log({
-        //   uid: decodeURIComponent(this.$cookies.get("uid")),
-        //   "access-token": this.$cookies.get("access-token"),
-        //   client: this.$cookies.get("client"),
-        // });
         await axios
           .delete("/api/v1/auth/sign_out", {
             data: {
@@ -157,10 +152,6 @@
           .then(() => {
             // console.log(response);
             this.logout_dialog = false;
-            this.$store.commit("setLoggedIn", false);
-            this.$cookies.remove("uid");
-            this.$cookies.remove("access-token");
-            this.$cookies.remove("client");
             if (this.$router.path !== "/") {
               this.$router.push("/");
             }
@@ -168,6 +159,11 @@
           .catch((err) => {
             console.error(err);
           });
+
+        // apiとの通信が失敗したり、DB情報が変わると失敗となり、フリーズしてしまうためここに配置
+        this.$cookies.remove("uid");
+        this.$cookies.remove("access-token");
+        this.$cookies.remove("client");
       },
     },
   };
