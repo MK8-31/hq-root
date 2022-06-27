@@ -8,10 +8,12 @@
 ### 状態: 現在制作途中です
 タスクの作成までは行えます。
 
-記録や経験値、レベルの表示はまだできません。
+記録や経験値、レベルの表示ができるようになりました！
 
 # URL
-URL： http://habituation-quest.tk
+URL: http://habituation-quest.tk
+or
+URL: https://habituation-quest.tk
 
 # モデル図
 ![習慣化アプリモデル図 drawio](https://user-images.githubusercontent.com/68171652/173063953-25ad35c4-e84d-49c4-832e-629908304943.png)
@@ -72,6 +74,15 @@ URL： http://habituation-quest.tk
 現在準備中
  
 # Note
+
+タスクリスト
+![スクリーンショット 2022-06-27 10 49 32](https://user-images.githubusercontent.com/68171652/175845592-9e977c72-e2af-4316-9a5f-7bf15765fe02.png)
+
+記録
+![スクリーンショット 2022-06-27 10 49 50](https://user-images.githubusercontent.com/68171652/175845597-52a25bed-3142-414b-8b19-74a3bf01f886.png)
+
+記録を見る
+![スクリーンショット 2022-06-27 10 50 03](https://user-images.githubusercontent.com/68171652/175845605-32b14955-943c-4f24-acfa-81e404a3ad84.png)
  
 現在準備中
  
