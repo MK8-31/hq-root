@@ -1,14 +1,14 @@
 export default {
   menuItems: [
     {
-      icon: "mdi-clipboard-outline",
-      name: "Task",
-      url: "/task_list",
-    },
-    {
       icon: "mdi-lead-pencil",
       name: "記録する",
       url: "/record",
+    },
+    {
+      icon: "mdi-clipboard-outline",
+      name: "Task",
+      url: "/task_list",
     },
     {
       icon: "mdi-book-open-page-variant-outline",

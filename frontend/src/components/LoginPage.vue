@@ -40,6 +40,7 @@
               :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
               :type="showPassword ? 'text' : 'password'"
               label="パスワード"
+              @keydown.enter="submit()"
               required
               :error-messages="errors"
             />
@@ -121,7 +122,7 @@
               decodeURI(response.headers["uid"])
             );
             this.$store.commit("setLoggedIn", true);
-            this.$router.push("/");
+            this.$router.push("/record");
           })
           .catch((error) => {
             this.errorMessage =

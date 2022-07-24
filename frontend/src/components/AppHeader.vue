@@ -152,9 +152,10 @@
           .then(() => {
             // console.log(response);
             this.logout_dialog = false;
-            if (this.$router.path !== "/") {
-              this.$router.push("/");
-            }
+            this.$router.go({
+              path: this.$router.currentRoute.path,
+              force: true,
+            });
           })
           .catch((err) => {
             console.error(err);
