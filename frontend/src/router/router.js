@@ -8,7 +8,7 @@ import SignUpPage from "@/components/SignUpPage.vue";
 import HelpPage from "@/components/HelpPage.vue";
 import AccountPage from "@/components/AccountPage.vue";
 import RecordPage from "@/components/Record/RecordPage.vue";
-import ShowRecordPage from "@/components/ShowRecordPage.vue";
+import ShowRecordPage from "@/components/Record/ShowRecordPage.vue";
 import ClassChangePage from "@/components/ClassChangePage.vue";
 import TaskListPage from "@/components/Task/TaskListPage.vue";
 import TaskPage from "@/components/Task/TaskPage.vue";
@@ -20,7 +20,6 @@ Vue.use(VueRouter);
 const routes = [
   { path: "/", component: HomePage, meta: { isPublic: true } },
   { path: "/login", component: LoginPage, meta: { isPublic: true } },
-  { path: "/logout", component: LogoutPage },
   { path: "/signup", component: SignUpPage, meta: { isPublic: true } },
   { path: "/help", component: HelpPage, meta: { isPublic: true } },
   { path: "/account", component: AccountPage },

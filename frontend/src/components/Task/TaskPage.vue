@@ -21,8 +21,6 @@
 </template>
 
 <script>
-  import axios from "axios";
-
   // taskのパラメータを表示したりする
   // 継続日数など
 
@@ -45,66 +43,7 @@
         // console.log(this.task);
       }
     },
-    computed: {
-      isSameTaskName() {
-        return this.task.name === this.taskName;
-      },
-    },
-    methods: {
-      /**
-       * タスクを編集するための関数です
-       */
-      async updateTask() {
-        await axios
-          .put(
-            `/api/v1/tasks/${this.task.id}`,
-            {
-              task: {
-                name: this.taskName,
-              },
-            },
-            {
-              headers: {
-                "access-token": this.$cookies.get("access-token"),
-                client: this.$cookies.get("client"),
-                uid: this.$cookies.get("uid"),
-              },
-            }
-          )
-          .then(() => {
-            // console.log(response);
-            this.$router.push("/task_list");
-          })
-          .catch((error) => {
-            console.error(error);
-            console.error(error.response);
-            this.errorMessage = error.response.data.errors[0];
-            console.error(this.errorMessage);
-          });
-      },
-      /**
-       * タスクを削除するための関数です
-       */
-      async deleteTask() {
-        await axios
-          .delete(`/api/v1/tasks/${this.task.id}`, {
-            headers: {
-              "access-token": this.$cookies.get("access-token"),
-              client: this.$cookies.get("client"),
-              uid: this.$cookies.get("uid"),
-            },
-          })
-          .then(() => {
-            // console.log(response);
-            this.$router.push("/task_list");
-          })
-          .catch((error) => {
-            console.error(error);
-            console.error(error.response);
-            this.errorMessage = error.response.data.errors[0];
-            console.error(this.errorMessage);
-          });
-      },
-    },
+    computed: {},
+    methods: {},
   };
 </script>

@@ -118,7 +118,7 @@
     },
     methods: {
       /**
-       * タスクを編集するための関数です
+       * タスクを編集する
        */
       async updateTask() {
         await axios
@@ -138,7 +138,6 @@
             }
           )
           .then(() => {
-            // console.log(response);
             this.$router.push("/task_list");
           })
           .catch((error) => {
@@ -149,7 +148,7 @@
           });
       },
       /**
-       * タスクを削除するための関数です
+       * タスクを削除する
        */
       async deleteTask() {
         await axios
@@ -161,7 +160,6 @@
             },
           })
           .then(() => {
-            // console.log(response);
             this.$router.push("/task_list");
           })
           .catch((error) => {

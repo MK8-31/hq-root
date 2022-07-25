@@ -110,6 +110,9 @@
       signup: false,
     }),
     methods: {
+      /**
+       * フォームを送信する
+       */
       async submit() {
         // console.log(this.nickname, this.email, this.password);
         await axios

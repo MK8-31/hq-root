@@ -65,7 +65,7 @@
     }),
     methods: {
       /**
-       * タスクを作成するための関数です
+       * タスクを作成する
        */
       async createTask() {
         await axios
@@ -85,7 +85,6 @@
             }
           )
           .then(() => {
-            // console.log(response);
             this.$router.push("/task_list");
           })
           .catch((error) => {

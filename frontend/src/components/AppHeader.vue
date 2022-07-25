@@ -28,16 +28,6 @@
               <v-icon>mdi-clipboard-outline</v-icon>
             </v-btn>
           </v-tab>
-          <!-- <v-tab link to="/help">
-            <v-btn icon class="right">
-              <v-icon>mdi-help</v-icon>
-            </v-btn>
-          </v-tab> -->
-          <!-- <v-tab link to="/class_change">
-            <v-btn icon class="right">
-              <v-icon>mdi-account-switch</v-icon>
-            </v-btn>
-          </v-tab> -->
           <v-tab link to="/account">
             <v-btn icon class="right">
               <v-icon>mdi-account</v-icon>
@@ -135,11 +125,17 @@
       };
     },
     computed: {
+      /**
+       * ログインをしているかどうか
+       */
       loggedIn() {
         return this.$store.getters.getLoggedIn;
       },
     },
     methods: {
+      /**
+       * ログアウトをする
+       */
       async logout() {
         await axios
           .delete("/api/v1/auth/sign_out", {
@@ -150,7 +146,6 @@
             },
           })
           .then(() => {
-            // console.log(response);
             this.logout_dialog = false;
             this.$router.go({
               path: this.$router.currentRoute.path,
@@ -175,20 +170,6 @@
     overflow: visible !important;
     margin-right: 50px !important;
   }
-  // .v-app-bar__nav-icon {
-  //   @include display_pc {
-  //     display: none !important;
-  //   }
-  // }
-  // .v-toolbar {
-  //   .v-btn.right {
-  //     display: none;
-
-  //     @include display_pc {
-  //       display: block !important;
-  //     }
-  //   }
-  // }
   .v-tab {
     display: none;
 

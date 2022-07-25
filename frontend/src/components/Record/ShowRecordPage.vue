@@ -61,7 +61,7 @@
     },
     methods: {
       /**
-       * すべてのタスクを取得する関数
+       * すべてのタスクを取得する
        */
       async getRecord() {
         await axios

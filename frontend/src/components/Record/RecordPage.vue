@@ -232,9 +232,6 @@
               this.exp = exp;
               this.rate = (this.nowLvExp / this.nowLvMaxExp) * 100;
             }, 500);
-            // setTimeout(() => {
-            //   this.showResult = false;
-            // }, 3000);
 
             this.complete[String(i)] = true;
           })

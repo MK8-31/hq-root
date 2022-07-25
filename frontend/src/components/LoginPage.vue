@@ -97,10 +97,9 @@
     },
     methods: {
       /**
-       * ログインをする関数
+       * ログインをする
        */
       async submit() {
-        // console.log(this.email, this.password);
         await axios
           .post("/api/v1/auth/sign_in", {
             email: this.email,
@@ -108,8 +107,6 @@
           })
           .then((response) => {
             this.login = true;
-            // console.log("ログイン成功");
-            // console.log(response);
             // クッキーにログイン保持に必要なヘッダー情報を保存
             this.$cookies.set("access-token", response.headers["access-token"]);
             this.$cookies.set("client", response.headers["client"]);
