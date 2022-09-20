@@ -3,7 +3,6 @@ import VueRouter from "vue-router";
 
 import HomePage from "@/components/HomePage.vue";
 import LoginPage from "@/components/LoginPage.vue";
-import LogoutPage from "@/components/LogoutPage.vue";
 import SignUpPage from "@/components/SignUpPage.vue";
 import HelpPage from "@/components/HelpPage.vue";
 import AccountPage from "@/components/AccountPage.vue";
