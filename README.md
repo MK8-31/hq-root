@@ -5,12 +5,14 @@
 
 # 習慣化クエスト
 
-### 状態: 現在公開停止中
+### 状態: 現在公開中
 
 # URL
-URL: http://habituation-quest.tk
-or
 URL: https://habituation-quest.tk
+
+# アーキテクチャ図
+開発初期はAWS(ECS)で運用していましたが、コスト面を考慮しGCP(Cloud Run)に移行しました。
+![hq-gcp drawio (1)](https://user-images.githubusercontent.com/68171652/192149339-4d7f8765-4df1-4bc9-b065-b24ff89eaa79.png)
 
 # モデル図
 ![習慣化アプリモデル図 drawio](https://user-images.githubusercontent.com/68171652/173063953-25ad35c4-e84d-49c4-832e-629908304943.png)
@@ -24,8 +26,8 @@ URL: https://habituation-quest.tk
 * Jest
 * Docker
 * Nginx
-* AWS(ECR/ECS)
-* CircleCI
+* AWS(ECR/ECS) -> GCP(Artifact Registory/Cloud Run)
+* CircleCI -> Cloud Build
  
 # DEMO
  
