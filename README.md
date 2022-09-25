@@ -10,12 +10,22 @@
 # URL
 URL: https://habituation-quest.tk
 
+# テストユーザー
+以下の情報でテスト用のアカウントにログインできます。
+
+email: test@example.com
+
+password: password
+
+ログインURL： https://habituation-quest.tk/login
+
 # アーキテクチャ図
 開発初期はAWS(ECS)で運用していましたが、コスト面を考慮しGCP(Cloud Run)に移行しました。
 ![hq-gcp drawio (1)](https://user-images.githubusercontent.com/68171652/192149339-4d7f8765-4df1-4bc9-b065-b24ff89eaa79.png)
 
 # モデル図
 ![習慣化アプリモデル図 drawio](https://user-images.githubusercontent.com/68171652/173063953-25ad35c4-e84d-49c4-832e-629908304943.png)
+
 
 # 使用技術
 * Ruby
