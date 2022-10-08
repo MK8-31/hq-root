@@ -1,6 +1,8 @@
 [submodule "front"]
 	path = front
 	url = https://github.com/MK8-31/hq-front
+	branch = main
 [submodule "api"]
 	path = api
 	url = https://github.com/MK8-31/hq-api
+	branch = main
