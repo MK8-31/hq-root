@@ -10,14 +10,13 @@
 # URL
 URL: https://habituation-quest.tk
 
-# テストユーザー
-以下の情報でテスト用のアカウントにログインできます。
+# お試しログイン
+ログインページのお試しログインからお試しいただけます。
 
-email: test@example.com
+ログインページURL： https://habituation-quest.tk/login
 
-password: password
+![お試しログイン](https://user-images.githubusercontent.com/68171652/202416949-20adeeaf-ce15-4fff-9e7e-3846c84b517e.png)
 
-ログインURL： https://habituation-quest.tk/login
 
 # アーキテクチャ図
 開発初期はAWS(ECS)で運用していましたが、コスト面を考慮しGCP(Cloud Run)に移行しました。
