@@ -15,7 +15,7 @@ URL: https://habituation-quest.tk
 
 ログインページURL： https://habituation-quest.tk/login
 
-![お試しログイン](https://user-images.githubusercontent.com/68171652/202416949-20adeeaf-ce15-4fff-9e7e-3846c84b517e.png)
+![お試しログイン解説](https://user-images.githubusercontent.com/68171652/202418276-4d195e35-3870-492e-81f8-e0d39caa774b.png)
 
 
 # アーキテクチャ図
