@@ -19,7 +19,9 @@ services:
         ipv4_address: '172.20.0.2'
   api:
     container_name: api
-    build: ./api/
+    build:
+      context: ./api/
+      dockerfile: "Dockerfile.dev_test"
     image: api
     # command: bundle exec rails server -b 0.0.0.0
     tty: true
